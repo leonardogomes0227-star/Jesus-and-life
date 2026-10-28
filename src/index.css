@@ -1,0 +1,75 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --bg: 242 244 240;
+  --surface: 255 255 255;
+  --ink: 20 32 30;
+  --muted: 91 107 103;
+  --line: 220 226 220;
+  --accent: 14 95 87;
+  --accent-ink: 255 255 255;
+  --sun: 232 136 58;
+  --sun-ink: 42 22 4;
+  color-scheme: light;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme='light']) {
+    --bg: 12 21 19;
+    --surface: 20 33 30;
+    --ink: 232 240 237;
+    --muted: 147 168 162;
+    --line: 36 54 50;
+    --accent: 94 208 190;
+    --accent-ink: 6 32 28;
+    --sun: 242 166 94;
+    --sun-ink: 42 22 4;
+    color-scheme: dark;
+  }
+}
+
+[data-theme='dark'] {
+  --bg: 12 21 19;
+  --surface: 20 33 30;
+  --ink: 232 240 237;
+  --muted: 147 168 162;
+  --line: 36 54 50;
+  --accent: 94 208 190;
+  --accent-ink: 6 32 28;
+  --sun: 242 166 94;
+  --sun-ink: 42 22 4;
+  color-scheme: dark;
+}
+
+html, body, #root { min-height: 100%; }
+body {
+  background: rgb(var(--bg));
+  color: rgb(var(--ink));
+  font-family: Figtree, system-ui, sans-serif;
+  -webkit-tap-highlight-color: transparent;
+}
+h1, h2, h3 { font-family: 'Bricolage Grotesque', system-ui, sans-serif; }
+
+@layer components {
+  .btn {
+    @apply inline-flex min-h-[48px] items-center justify-center gap-2 rounded-full px-6 text-base font-semibold transition active:scale-[0.98] disabled:opacity-50;
+  }
+  .btn-primary { @apply btn bg-accent text-accent-ink; }
+  .btn-sun { @apply btn bg-sun text-sun-ink; }
+  .btn-ghost { @apply btn border border-line bg-surface text-ink; }
+  .card { @apply rounded-3xl border border-line bg-surface p-5; }
+  .field {
+    @apply min-h-[48px] w-full rounded-2xl border border-line bg-bg px-4 text-base text-ink outline-none placeholder:text-muted focus:border-accent;
+  }
+  .chip {
+    @apply inline-flex min-h-[48px] items-center rounded-full border border-line bg-bg px-4 text-[15px] font-medium text-ink transition;
+  }
+  .chip[aria-pressed='true'] { @apply border-accent bg-accent text-accent-ink; }
+  .label { @apply mb-2 block text-sm font-semibold text-muted; }
+}
+
+@keyframes fade-up { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: none; } }
+.fade-up { animation: fade-up 0.35s ease both; }
+@media (prefers-reduced-motion: reduce) { .fade-up { animation: none; } }

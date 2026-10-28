@@ -1,0 +1,140 @@
+import { createContext, useCallback, useContext, useEffect, useMemo, useState, type ReactNode } from 'react'
+import type { AppState, Slip } from './types'
+import { addDays, dayKey, diffDays } from './dates'
+
+export const STORAGE_KEY = 'livre.v1'
+
+export const emptyState = (): AppState => ({
+  profile: null,
+  streakStart: dayKey(),
+  banked: 0,
+  checkins: [],
+  slips: [],
+  sos: [],
+  partner: { name: '', phone: '' },
+  theme: 'auto',
+  pinHash: null,
+  createdAt: new Date().toISOString(),
+})
+
+/** Mescla um objeto desconhecido com o estado padrão, descartando o que não faz sentido. */
+export const normalize = (raw: unknown): AppState => {
+  const base = emptyState()
+  if (!raw || typeof raw !== 'object') return base
+  const r = raw as Partial<AppState>
+  return {
+    ...base,
+    ...r,
+    partner: { ...base.partner, ...(r.partner ?? {}) },
+    checkins: Array.isArray(r.checkins) ? r.checkins : [],
+    slips: Array.isArray(r.slips) ? r.slips : [],
+    sos: Array.isArray(r.sos) ? r.sos : [],
+    banked: Number.isFinite(r.banked) ? Number(r.banked) : 0,
+  }
+}
+
+const load = (): AppState => {
+  try {
+    const s = localStorage.getItem(STORAGE_KEY)
+    return s ? normalize(JSON.parse(s)) : emptyState()
+  } catch {
+    return emptyState()
+  }
+}
+
+/** Dia atual da sequência (o dia 1 é o primeiro dia). */
+export const streakDay = (s: AppState, today = dayKey()): number =>
+  Math.max(1, diffDays(s.streakStart, today) + 1)
+
+/** Total acumulado: nunca zera, mesmo depois de recomeçar. */
+export const totalDays = (s: AppState, today = dayKey()): number => s.banked + streakDay(s, today)
+
+interface Store {
+  state: AppState
+  update: (fn: (s: AppState) => AppState) => void
+  start: (name: string, daysSoFar: number, goal: 21 | 90) => void
+  saveCheckin: (c: { mood: 1 | 2 | 3 | 4 | 5; triggers: string[]; note: string }) => void
+  logSos: (outcome: 'passed' | 'slipped') => void
+  registerSlip: (s: Omit<Slip, 'id' | 'streakDays'>) => void
+  replaceAll: (s: AppState) => void
+  wipe: () => void
+}
+
+const Ctx = createContext<Store | null>(null)
+
+export function StoreProvider({ children }: { children: ReactNode }) {
+  const [state, setState] = useState<AppState>(load)
+
+  useEffect(() => {
+    try {
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(state))
+    } catch {
+      /* armazenamento indisponível: o app segue funcionando em memória */
+    }
+  }, [state])
+
+  const update = useCallback((fn: (s: AppState) => AppState) => setState(fn), [])
+
+  const store = useMemo<Store>(
+    () => ({
+      state,
+      update,
+      start: (name, daysSoFar, goal) =>
+        setState((s) => ({
+          ...s,
+          profile: { name: name.trim(), goal },
+          streakStart: addDays(dayKey(), -Math.max(0, daysSoFar - 1)),
+          banked: 0,
+        })),
+      saveCheckin: (c) =>
+        setState((s) => {
+          const date = dayKey()
+          const rest = s.checkins.filter((x) => x.date !== date)
+          return { ...s, checkins: [...rest, { ...c, date, at: new Date().toISOString() }] }
+        }),
+      logSos: (outcome) =>
+        setState((s) => ({ ...s, sos: [...s.sos, { at: new Date().toISOString(), outcome }] })),
+      registerSlip: (data) =>
+        setState((s) => {
+          const today = dayKey()
+          const days = streakDay(s, today)
+          const slip: Slip = { ...data, id: crypto.randomUUID(), streakDays: days }
+          return {
+            ...s,
+            slips: [...s.slips, slip],
+            // dias já vividos continuam contando; o dia de hoje abre a nova sequência
+            banked: s.banked + (days - 1),
+            streakStart: today,
+            sos: s.sos,
+          }
+        }),
+      replaceAll: (next) => setState(normalize(next)),
+      wipe: () => {
+        try {
+          localStorage.removeItem(STORAGE_KEY)
+          sessionStorage.clear()
+        } catch {
+          /* ignora */
+        }
+        setState(emptyState())
+      },
+    }),
+    [state, update],
+  )
+
+  return <Ctx.Provider value={store}>{children}</Ctx.Provider>
+}
+
+export function useStore(): Store {
+  const v = useContext(Ctx)
+  if (!v) throw new Error('useStore fora do StoreProvider')
+  return v
+}
+
+/** Hash simples só para a trava local de PIN (privacidade casual, não segurança forte). */
+export const hashPin = (pin: string): string => {
+  let h = 5381
+  const s = `livre:${pin}`
+  for (let i = 0; i < s.length; i++) h = ((h << 5) + h + s.charCodeAt(i)) | 0
+  return String(h >>> 0)
+}
