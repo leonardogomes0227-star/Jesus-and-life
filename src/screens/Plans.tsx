@@ -68,7 +68,7 @@ export function PlanPage() {
               </div>
               <div className="mt-2 flex flex-wrap gap-2">
                 {d.map((c) => (
-                  <Link key={`${c.book}${c.chapter}`} to={`/biblia/${c.book}/${c.chapter}?plano=${plan.id}`} className="chip !min-h-[44px] text-sm">{label(c)}</Link>
+                  <Link key={`${c.book}${c.chapter}`} to={`/biblia/${c.book}/${c.chapter}?plano=${plan.id}&dia=${i}`} className="chip !min-h-[44px] text-sm">{label(c)}</Link>
                 ))}
               </div>
             </li>

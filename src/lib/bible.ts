@@ -49,19 +49,22 @@ export const parseRef = (input: string): { book: Book; chapter: number; verse?: 
 
 export interface Hit { book: Book; chapter: number; verse: number; text: string }
 
-/** Busca por palavra em toda a Bíblia (carrega os livros sob demanda). */
-export const searchText = async (query: string, limit = 60): Promise<Hit[]> => {
-  const q = norm(query)
-  if (q.length < 3) return []
+/** Busca por palavra(s) em toda a Bíblia: todas as palavras precisam aparecer no versículo. */
+export const searchText = async (query: string, limit = 60, testament?: 'AT' | 'NT'): Promise<Hit[]> => {
+  const words = norm(query).split(/\s+/).filter((w) => w.length >= 3)
+  if (words.length === 0) return []
   const hits: Hit[] = []
   for (const book of BOOKS) {
+    if (testament && book.testament !== testament) continue
     const chapters = await loadBook(book.id)
     for (let c = 0; c < chapters.length; c++)
-      for (let v = 0; v < chapters[c].length; v++)
-        if (norm(chapters[c][v]).includes(q)) {
+      for (let v = 0; v < chapters[c].length; v++) {
+        const t = norm(chapters[c][v])
+        if (words.every((w) => t.includes(w))) {
           hits.push({ book, chapter: c + 1, verse: v + 1, text: chapters[c][v] })
           if (hits.length >= limit) return hits
         }
+      }
   }
   return hits
 }

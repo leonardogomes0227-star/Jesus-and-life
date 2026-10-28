@@ -137,8 +137,8 @@ export default function Prayer() {
           <ul className="space-y-3">
             {marks.map(({ k, m, book, ch, v }) => (
               <li key={k}>
-                <Link to={`/biblia/${book.id}/${ch}?v=${v}`} className="card block !p-4 active:scale-[0.99]">
-                  <span className="block font-bold text-accent">{book.name} {ch}:{v} {m.fav && <span className="text-sun">★</span>}</span>
+                <Link to={`/biblia/${book.id}/${ch}?v=${v}${m.to ? `&to=${m.to}` : ''}`} className="card block !p-4 active:scale-[0.99]">
+                  <span className="block font-bold text-accent">{book.name} {ch}:{v}{m.to ? `-${m.to}` : ''} {m.fav && <span className="text-sun">★</span>}</span>
                   {m.note && <span className="mt-1 block text-[15px]">{m.note}</span>}
                   {m.color && !m.note && <span className="mt-1 block text-sm text-muted">Destaque {m.color}</span>}
                 </Link>

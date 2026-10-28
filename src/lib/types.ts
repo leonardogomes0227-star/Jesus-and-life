@@ -49,6 +49,7 @@ export interface AppState {
   trailNotes: Record<string, string> // anotações por lição
   marks: Record<string, BibleMark> // chave: livro.capítulo.versículo
   lastRead: { book: string; chapter: number } | null
+  readChapters: string[] // "livro.capítulo" marcados como lidos
   plans: Record<string, PlanProgress>
   prayers: Prayer[]
   journal: JournalEntry[]
@@ -64,6 +65,7 @@ export interface BibleMark {
   color?: MarkColor
   note?: string
   fav?: boolean
+  to?: number // fim do trecho, quando a nota vale para vários versículos
 }
 export interface PlanProgress {
   startedAt: string
