@@ -105,7 +105,7 @@ export default function Today() {
 
       {next && (
         <section className="card flex items-center gap-4 fade-up">
-          <span className="flex h-14 w-14 shrink-0 items-center justify-center rounded-2xl bg-bg text-3xl" aria-hidden>{next.emoji}</span>
+          <span className="flex h-14 w-14 shrink-0 flex-col items-center justify-center rounded-2xl bg-bg" aria-hidden><span className="font-display text-xl font-bold leading-none">{next.days}</span><span className="text-[10px] font-semibold text-muted">dias</span></span>
           <div className="min-w-0 flex-1">
             <p className="text-sm font-semibold text-muted">Próxima conquista</p>
             <p className="font-display text-lg font-bold">{next.title} <span className="text-sm font-medium text-muted">· faltam {next.days - total}</span></p>

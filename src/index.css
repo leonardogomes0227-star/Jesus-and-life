@@ -3,43 +3,43 @@
 @tailwind utilities;
 
 :root {
-  --bg: 242 244 240;
+  --bg: 245 246 248;
   --surface: 255 255 255;
-  --ink: 20 32 30;
-  --muted: 91 107 103;
-  --line: 220 226 220;
-  --accent: 14 95 87;
+  --ink: 15 23 42;
+  --muted: 91 101 119;
+  --line: 226 229 234;
+  --accent: 30 58 95;
   --accent-ink: 255 255 255;
-  --sun: 232 136 58;
-  --sun-ink: 42 22 4;
+  --sun: 183 121 31;
+  --sun-ink: 255 255 255;
   color-scheme: light;
 }
 
 @media (prefers-color-scheme: dark) {
   :root:not([data-theme='light']) {
-    --bg: 12 21 19;
-    --surface: 20 33 30;
-    --ink: 232 240 237;
-    --muted: 147 168 162;
-    --line: 36 54 50;
-    --accent: 94 208 190;
-    --accent-ink: 6 32 28;
-    --sun: 242 166 94;
-    --sun-ink: 42 22 4;
+    --bg: 11 18 32;
+    --surface: 18 27 45;
+    --ink: 230 234 242;
+    --muted: 143 155 176;
+    --line: 31 42 64;
+    --accent: 127 168 224;
+    --accent-ink: 11 18 32;
+    --sun: 224 164 88;
+    --sun-ink: 26 18 5;
     color-scheme: dark;
   }
 }
 
 [data-theme='dark'] {
-  --bg: 12 21 19;
-  --surface: 20 33 30;
-  --ink: 232 240 237;
-  --muted: 147 168 162;
-  --line: 36 54 50;
-  --accent: 94 208 190;
-  --accent-ink: 6 32 28;
-  --sun: 242 166 94;
-  --sun-ink: 42 22 4;
+  --bg: 11 18 32;
+  --surface: 18 27 45;
+  --ink: 230 234 242;
+  --muted: 143 155 176;
+  --line: 31 42 64;
+  --accent: 127 168 224;
+  --accent-ink: 11 18 32;
+  --sun: 224 164 88;
+  --sun-ink: 26 18 5;
   color-scheme: dark;
 }
 
