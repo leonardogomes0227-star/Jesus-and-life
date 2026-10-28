@@ -92,7 +92,7 @@ export default function Journey() {
             return (
               <div key={m.days} title={m.text} className={`flex flex-col items-center rounded-2xl p-2 text-center ${got ? 'bg-sun/15' : 'bg-bg opacity-50'}`}>
                 <span className={`text-2xl ${got ? '' : 'grayscale'}`} aria-hidden>{m.emoji}</span>
-                <span className="mt-1 text-[11px] font-bold leading-tight">{m.days}d</span>
+                <span className="mt-1 text-xs font-bold leading-tight">{m.days}d</span>
               </div>
             )
           })}
@@ -125,7 +125,7 @@ export default function Journey() {
             {hours.map((h, i) => (
               <div key={i} className="flex flex-col items-center gap-1">
                 <div className="flex h-24 w-full items-end"><div className={`w-full rounded-t-md ${h ? (i === peak ? 'bg-sun' : 'bg-sun/50') : 'bg-line'}`} style={{ height: `${Math.max(6, (h / maxH) * 100)}%` }} /></div>
-                <span className="text-[9px] leading-tight text-muted">{BLOCKS[i]}</span>
+                <span className="text-[10px] leading-tight text-muted">{BLOCKS[i]}</span>
               </div>
             ))}
           </div>

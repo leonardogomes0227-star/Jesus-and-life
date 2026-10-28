@@ -122,6 +122,7 @@ export function Reader() {
   const [note, setNote] = useState('')
   const [msg, setMsg] = useState('')
   const scrolled = useRef(false)
+  const [hint, setHint] = useState(() => { try { return localStorage.getItem('livre.hint.verso') !== '1' } catch { return true } })
 
   useEffect(() => {
     if (!b) return
@@ -179,6 +180,12 @@ export function Reader() {
       {plan && <Link to={`/planos/${plan.id}`} className="block rounded-2xl bg-accent/10 px-4 py-3 text-sm font-semibold text-accent">Plano: {plan.title} · voltar ao plano</Link>}
 
       <h1 className="font-display text-3xl font-bold">{b.name} {ch}</h1>
+      {hint && verses && (
+        <div className="flex items-center justify-between gap-3 rounded-2xl bg-accent/10 px-4 py-3 text-sm">
+          <span>Toque em um versículo para destacar, anotar, copiar ou enviar.</span>
+          <button className="min-h-[44px] shrink-0 font-semibold text-accent underline" onClick={() => { setHint(false); try { localStorage.setItem('livre.hint.verso', '1') } catch { /* sem armazenamento */ } }}>Entendi</button>
+        </div>
+      )}
 
       {error && <p className="card text-muted">Não foi possível carregar este capítulo. Verifique a conexão e tente de novo.</p>}
       {!verses && !error && <p className="text-muted">Carregando…</p>}

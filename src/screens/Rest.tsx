@@ -13,7 +13,7 @@ export function RestList() {
       <div className="space-y-3">
         {AUDIO_SESSIONS.map((a) => (
           <Link key={a.id} to={`/descanso/${a.id}`} className="card flex items-center gap-4 active:scale-[0.99]">
-            <span className="flex h-14 w-14 shrink-0 flex-col items-center justify-center rounded-2xl bg-bg"><span className="font-display text-xl font-bold leading-none">{a.minutes}</span><span className="text-[10px] font-semibold text-muted">min</span></span>
+            <span className="flex h-14 w-14 shrink-0 flex-col items-center justify-center rounded-2xl bg-bg"><span className="font-display text-xl font-bold leading-none">{a.minutes}</span><span className="text-[11px] font-semibold text-muted">min</span></span>
             <span>
               <span className="block font-display text-lg font-bold">{a.title}</span>
               <span className="block text-sm text-muted">{a.blurb}</span>
