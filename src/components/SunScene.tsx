@@ -28,7 +28,7 @@ export default function SunScene({ progress, goal, day }: Props) {
     <svg viewBox="0 0 320 180" className="w-full overflow-hidden rounded-[28px]" role="img" aria-label={`Dia ${day} de ${goal}`}>
       <defs>
         <linearGradient id="sky" x1="0" y1="0" x2="0" y2="1">
-          <stop offset="0" style={{ stopColor: 'rgb(var(--accent))', stopOpacity: 0.2 }} />
+          <stop offset="0" style={{ stopColor: 'rgb(var(--ink))', stopOpacity: 0.05 }} />
           <stop offset="1" style={{ stopColor: 'rgb(var(--sun))', stopOpacity: 0.3 }} />
         </linearGradient>
         <radialGradient id="halo">
@@ -61,8 +61,8 @@ export default function SunScene({ progress, goal, day }: Props) {
         <circle cx={sun.x} cy={sun.y} r="15" fill="rgb(var(--sun))" />
       </g>
 
-      <path d="M0 150 Q50 128 100 144 T200 140 T320 132 V180 H0Z" fill="rgb(var(--accent))" fillOpacity="0.35" />
-      <path d="M0 162 Q70 142 130 158 T250 154 T320 150 V180 H0Z" fill="rgb(var(--accent))" fillOpacity="0.75" />
+      <path d="M0 150 Q50 128 100 144 T200 140 T320 132 V180 H0Z" fill="rgb(var(--ink))" fillOpacity="0.06" />
+      <path d="M0 162 Q70 142 130 158 T250 154 T320 150 V180 H0Z" fill="rgb(var(--ink))" fillOpacity="0.12" />
     </svg>
   )
 }

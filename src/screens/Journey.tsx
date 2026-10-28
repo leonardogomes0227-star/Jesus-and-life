@@ -38,10 +38,10 @@ export default function Journey() {
 
   type Ev = { at: string; icon: string; title: string; text?: string }
   const events: Ev[] = [
-    { at: state.createdAt, icon: '🌱', title: 'Você começou a jornada' },
-    ...state.checkins.map((c) => ({ at: c.at, icon: MOODS[c.mood - 1].emoji, title: `Check-in: ${MOODS[c.mood - 1].label}`, text: [c.triggers.join(', '), c.note].filter(Boolean).join(' · ') })),
-    ...state.sos.filter((s) => s.outcome === 'passed').map((s) => ({ at: s.at, icon: '🌊', title: 'A onda passou' })),
-    ...state.slips.map((s) => ({ at: s.at, icon: '🌅', title: `Recomeço após ${s.streakDays - 1} ${s.streakDays - 1 === 1 ? 'dia' : 'dias'}`, text: [s.place, s.plan && `Plano: ${s.plan}`].filter(Boolean).join(' · ') })),
+    { at: state.createdAt, icon: '', title: 'Você começou a jornada' },
+    ...state.checkins.map((c) => ({ at: c.at, icon: String(c.mood), title: `Check-in: ${MOODS[c.mood - 1].label}`, text: [c.triggers.join(', '), c.note].filter(Boolean).join(' · ') })),
+    ...state.sos.filter((s) => s.outcome === 'passed').map((s) => ({ at: s.at, icon: '', title: 'A onda passou' })),
+    ...state.slips.map((s) => ({ at: s.at, icon: '', title: `Recomeço após ${s.streakDays - 1} ${s.streakDays - 1 === 1 ? 'dia' : 'dias'}`, text: [s.place, s.plan && `Plano: ${s.plan}`].filter(Boolean).join(' · ') })),
   ].sort((a, b) => +new Date(b.at) - +new Date(a.at))
 
   return (
@@ -54,13 +54,12 @@ export default function Journey() {
 
       <section className="grid grid-cols-2 gap-3 fade-up">
         {[
-          [total, 'dias acumulados', '☀️'],
-          [streakDay(state), 'dias na sequência atual', '🔥'],
-          [bestStreak(state), 'melhor sequência', '🏆'],
-          [waves, 'ondas vencidas', '🌊'],
-        ].map(([n, l, i]) => (
+          [total, 'dias acumulados'],
+          [streakDay(state), 'dias na sequência atual'],
+          [bestStreak(state), 'melhor sequência'],
+          [waves, 'ondas vencidas'],
+        ].map(([n, l]) => (
           <div key={l} className="card !p-4">
-            <span className="text-xl" aria-hidden>{i}</span>
             <p className="font-display text-3xl font-bold"><CountUp to={Number(n)} /></p>
             <p className="text-sm text-muted">{l}</p>
           </div>
@@ -91,8 +90,8 @@ export default function Journey() {
             const got = total >= m.days
             return (
               <div key={m.days} title={m.text} className={`flex flex-col items-center rounded-2xl p-2 text-center ${got ? 'bg-sun/15' : 'bg-bg opacity-50'}`}>
-                <span className={`text-2xl ${got ? '' : 'grayscale'}`} aria-hidden>{m.emoji}</span>
-                <span className="mt-1 text-xs font-bold leading-tight">{m.days}d</span>
+                <span className="font-display text-xl font-bold">{m.days}</span>
+                <span className="mt-0.5 text-[11px] font-semibold leading-tight text-muted">dias</span>
               </div>
             )
           })}
@@ -137,7 +136,7 @@ export default function Journey() {
         <ol className="relative mt-4 space-y-5 before:absolute before:bottom-2 before:left-5 before:top-2 before:w-px before:bg-line">
           {events.slice(0, 40).map((e, i) => (
             <li key={i} className="relative flex gap-3">
-              <span className="relative z-10 flex h-10 w-10 shrink-0 items-center justify-center rounded-full border border-line bg-surface text-lg" aria-hidden>{e.icon}</span>
+              <span className="relative z-10 flex h-10 w-10 shrink-0 items-center justify-center rounded-full border border-line bg-surface text-lg" aria-hidden>{e.icon || <i className="h-2 w-2 rounded-full bg-muted" />}</span>
               <div className="pt-0.5">
                 <p className="font-semibold">{e.title}</p>
                 {e.text && <p className="text-sm text-muted">{e.text}</p>}

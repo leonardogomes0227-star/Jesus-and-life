@@ -57,13 +57,13 @@ export default function Trail() {
 
       {finished && goal === 21 && (
         <section className="card fade-up">
-          <p className="font-display text-xl font-bold">Parabéns pelos 21 dias! 🌿</p>
+          <p className="font-display text-xl font-bold">Parabéns pelos 21 dias.</p>
           <p className="mt-1 text-muted">Quer continuar até 90 dias? As lições seguintes aprofundam mente, relações e perseverança.</p>
           <button className="btn-primary mt-3 w-full" onClick={() => update((s) => ({ ...s, profile: { ...s.profile!, goal: 90 } }))}>Estender para 90 dias</button>
         </section>
       )}
       {finished && goal === 90 && (
-        <section className="card fade-up"><p className="font-display text-xl font-bold">Você completou os 90 dias. 🕊️</p><p className="mt-1 text-muted">Gratidão por cada passo. Você pode revisitar qualquer lição abaixo.</p></section>
+        <section className="card fade-up"><p className="font-display text-xl font-bold">Você completou os 90 dias.</p><p className="mt-1 text-muted">Gratidão por cada passo. Você pode revisitar qualquer lição abaixo.</p></section>
       )}
 
       {PHASES.filter((p) => p.from <= goal).map((p) => {
@@ -84,7 +84,7 @@ export default function Trail() {
                 const locked = l.n > cur
                 const row = (
                   <div className={`flex min-h-[60px] items-center gap-3 rounded-2xl border px-4 py-2 ${l.n === cur ? 'border-accent bg-accent/10' : 'border-line bg-surface'} ${locked ? 'opacity-50' : ''}`}>
-                    <span className={`flex h-9 w-9 shrink-0 items-center justify-center rounded-full text-sm font-bold ${isDone ? 'bg-accent text-accent-ink' : 'bg-bg text-muted'}`}>{isDone ? '✓' : locked ? '🔒' : l.n}</span>
+                    <span className={`flex h-9 w-9 shrink-0 items-center justify-center rounded-full text-sm font-bold ${isDone ? 'bg-accent text-accent-ink' : 'bg-bg text-muted'}`}>{isDone ? '✓' : l.n}</span>
                     <span className="min-w-0">
                       <span className="block truncate font-semibold">{l.title}</span>
                       <span className="block text-xs text-muted">Dia {l.n} · {l.ref}</span>

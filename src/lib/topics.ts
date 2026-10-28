@@ -11,7 +11,6 @@ export interface Article {
 export interface Topic {
   id: string
   title: string
-  emoji: string
   blurb: string
   articles: Article[]
 }
@@ -20,7 +19,6 @@ export const TOPICS: Topic[] = [
   {
     id: 'mente',
     title: 'Mente e hábitos',
-    emoji: '🧠',
     blurb: 'Como a mente aprende, deseja e muda, vista pela Bíblia e pela ciência.',
     articles: [
       {
@@ -80,7 +78,6 @@ export const TOPICS: Topic[] = [
   {
     id: 'limites',
     title: 'Limites emocionais e namoro',
-    emoji: '💞',
     blurb: 'Relacionamentos com respeito, honra e limites que protegem.',
     articles: [
       {
@@ -140,7 +137,6 @@ export const TOPICS: Topic[] = [
   {
     id: 'ansiedade',
     title: 'Ansiedade e vazio interior',
-    emoji: '🌫️',
     blurb: 'O que fazer com a inquietação, a solidão e a sensação de vazio.',
     articles: [
       {

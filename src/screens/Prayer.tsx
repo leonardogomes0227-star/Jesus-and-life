@@ -46,7 +46,7 @@ export default function Prayer() {
 
   return (
     <main className="space-y-5">
-      <Link to="/ler" className="flex min-h-[48px] items-center text-sm font-semibold text-accent">← Ler</Link>
+      <Link to="/biblia" className="flex min-h-[48px] items-center text-sm font-semibold text-muted">← Bíblia</Link>
       <h1 className="font-display text-3xl font-bold">Oração e diário</h1>
 
       <div className="grid grid-cols-3 gap-2" role="tablist">

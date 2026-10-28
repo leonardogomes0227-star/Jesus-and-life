@@ -9,15 +9,15 @@ export const verseImage = (text: string, ref: string): Promise<Blob> =>
     if (!g) return reject(new Error('canvas indisponível'))
 
     const bg = g.createLinearGradient(0, 0, 0, H)
-    bg.addColorStop(0, '#0B1220')
-    bg.addColorStop(1, '#1E3A5F')
+    bg.addColorStop(0, '#121110')
+    bg.addColorStop(1, '#2B2926')
     g.fillStyle = bg
     g.fillRect(0, 0, W, H)
 
-    g.fillStyle = '#E0A458'
+    g.fillStyle = '#C9A062'
     g.fillRect(96, 160, 96, 6)
 
-    const family = '"Bricolage Grotesque", Georgia, serif'
+    const family = 'Newsreader, Georgia, serif'
     const maxW = W - 192
     let size = 76
     let lines: string[] = []
@@ -37,14 +37,14 @@ export const verseImage = (text: string, ref: string): Promise<Blob> =>
       lines = wrap(size)
       if (lines.length * size * 1.32 <= 800) break
     }
-    g.fillStyle = '#F2F5FA'
+    g.fillStyle = '#F4F1EC'
     g.textBaseline = 'top'
     lines.forEach((l, i) => g.fillText(l, 96, 230 + i * size * 1.32))
 
-    g.fillStyle = '#E0A458'
+    g.fillStyle = '#C9A062'
     g.font = `700 44px ${family}`
     g.fillText(`${ref} · ACF`, 96, H - 220)
-    g.fillStyle = '#8FA3C2'
+    g.fillStyle = '#9A948B'
     g.font = `500 34px ${family}`
     g.fillText('Livre', 96, H - 150)
 

@@ -49,6 +49,7 @@ export interface AppState {
   trailNotes: Record<string, string> // anotações por lição
   marks: Record<string, BibleMark> // chave: livro.capítulo.versículo
   lastRead: { book: string; chapter: number } | null
+  moments: Moment[] // momentos com Deus concluídos
   readChapters: string[] // "livro.capítulo" marcados como lidos
   plans: Record<string, PlanProgress>
   prayers: Prayer[]
@@ -84,4 +85,13 @@ export interface JournalEntry {
   at: string
   kind: 'gratidao' | 'reflexao' | 'livre'
   text: string
+}
+
+export interface Moment {
+  id: string
+  at: string
+  feeling: string
+  minutes: number
+  ref: string
+  need: string
 }

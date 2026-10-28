@@ -27,7 +27,7 @@ export default function MoodChart({ checkins, today, days = 14 }: { checkins: Ch
       {[1, 2, 3, 4, 5].map((m) => (
         <g key={m}>
           <line x1={PAD.l} x2={W - PAD.r} y1={y(m)} y2={y(m)} stroke="rgb(var(--line))" strokeDasharray="3 4" />
-          <text x={0} y={y(m) + 5} fontSize="13">{MOODS[m - 1].emoji}</text>
+          <text x={0} y={y(m) + 5} fontSize="11" fill="rgb(var(--muted))">{MOODS[m - 1].value}</text>
         </g>
       ))}
       {area && <path d={area} fill="url(#mood-area)" />}

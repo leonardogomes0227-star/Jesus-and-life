@@ -1,6 +1,5 @@
 import { useState } from 'react'
 import { Link, Navigate, useNavigate, useParams } from 'react-router-dom'
-import Confetti from '../components/Confetti'
 import { LESSONS, phaseOf } from '../lib/trail'
 import { currentLesson, useStore } from '../lib/store'
 import { useSpeech } from '../lib/speech'
@@ -34,10 +33,9 @@ export default function Lesson() {
 
   return (
     <main className="space-y-5">
-      {party && <Confetti count={30} />}
       <div className="flex items-center justify-between">
         <Link to="/trilha" className="flex min-h-[48px] items-center text-sm font-semibold text-accent">← Trilha</Link>
-        {supported && <button onClick={() => read(script)} className="btn-ghost !min-h-[44px] !px-4 text-sm" aria-pressed={speaking}>{speaking ? '⏹ Parar' : '🔊 Ouvir'}</button>}
+        {supported && <button onClick={() => read(script)} className="btn-ghost !min-h-[44px] !px-4 text-sm" aria-pressed={speaking}>{speaking ? '⏹ Parar' : 'Ouvir'}</button>}
       </div>
 
       <header className="fade-up">
@@ -52,29 +50,29 @@ export default function Lesson() {
 
       <section className="space-y-4 fade-up">
         <div className="card">
-          <h2 className="text-sm font-bold text-accent">📖 Entenda o texto</h2>
+          <h2 className="text-sm font-bold text-accent">Entenda o texto</h2>
           <p className="mt-2 leading-relaxed">{lesson.teaching}</p>
         </div>
         {lesson.mind && (
           <div className="card">
-            <h2 className="text-sm font-bold text-accent">🧠 Na sua mente</h2>
+            <h2 className="text-sm font-bold text-accent">Na sua mente</h2>
             <p className="mt-2 leading-relaxed">{lesson.mind}</p>
           </div>
         )}
         <div className="card border-sun/50 bg-sun/10">
-          <h2 className="text-sm font-bold text-sun">✋ Prática de hoje</h2>
+          <h2 className="text-sm font-bold text-sun">Prática de hoje</h2>
           <p className="mt-2 leading-relaxed">{lesson.practice}</p>
         </div>
         {lesson.prayer && (
           <div className="card">
-            <h2 className="text-sm font-bold text-accent">🙏 Oração</h2>
+            <h2 className="text-sm font-bold text-accent">Oração</h2>
             <p className="mt-2 italic leading-relaxed">{lesson.prayer}</p>
           </div>
         )}
       </section>
 
       <section className="card fade-up">
-        <label className="text-sm font-bold text-accent" htmlFor="nota">✍️ Para anotar</label>
+        <label className="text-sm font-bold text-accent" htmlFor="nota">Para anotar</label>
         {lesson.prompt && <p className="mt-1 text-sm text-muted">{lesson.prompt}</p>}
         <textarea id="nota" className="field mt-3 py-3" rows={4} value={note} onChange={(e) => setNote(e.target.value)} placeholder="Escreva o que vier. Fica só no seu aparelho." />
       </section>

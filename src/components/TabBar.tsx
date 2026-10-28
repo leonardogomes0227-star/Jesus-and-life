@@ -10,14 +10,14 @@ const Icon = ({ children }: { children: ReactNode }) => (
 interface Tab { to: string; label: string; icon: ReactNode; match: string[] }
 
 const tabs: (Tab | null)[] = [
-  { to: '/', label: 'Início', match: ['/'], icon: <Icon><path d="M4 11 12 4l8 7v8a1 1 0 0 1-1 1h-4v-6H9v6H5a1 1 0 0 1-1-1z" /></Icon> },
-  { to: '/ler', label: 'Ler', match: ['/ler', '/biblia', '/planos', '/orar', '/descanso', '/devocional', '/agora'], icon: <Icon><path d="M4 5a2 2 0 0 1 2-2h13v16H6a2 2 0 0 0-2 2z" /><path d="M4 19V5M9 8h6" /></Icon> },
+  { to: '/', label: 'Início', match: ['/', '/momento'], icon: <Icon><path d="M4 11 12 4l8 7v8a1 1 0 0 1-1 1h-4v-6H9v6H5a1 1 0 0 1-1-1z" /></Icon> },
+  { to: '/biblia', label: 'Bíblia', match: ['/biblia', '/planos', '/orar', '/descanso'], icon: <Icon><path d="M4 5a2 2 0 0 1 2-2h13v16H6a2 2 0 0 0-2 2z" /><path d="M4 19V5M9 8h6" /></Icon> },
   null,
   { to: '/trilha', label: 'Trilhas', match: ['/trilha', '/jornada', '/temas', '/queda', '/ajustes'], icon: <Icon><path d="M4 19c0-5 4-5 8-7s4-4 8-7" /><circle cx="5" cy="19" r="1.5" /><circle cx="19" cy="5" r="1.5" /></Icon> },
   { to: '/parceiro', label: 'Parceiro', match: ['/parceiro'], icon: <Icon><circle cx="9" cy="8" r="3.2" /><path d="M3 20c0-3.3 2.7-6 6-6s6 2.7 6 6M16 5.2a3.2 3.2 0 0 1 0 5.6M18 14.4c1.8.8 3 2.6 3 5.6" /></Icon> },
 ]
 
-const isActive = (t: Tab, path: string) => (t.to === '/' ? path === '/' : t.match.some((m) => path === m || path.startsWith(m + '/')))
+const isActive = (t: Tab, path: string) => t.match.some((m) => (m === '/' ? path === '/' : path === m || path.startsWith(m + '/')))
 
 export default function TabBar() {
   const { pathname } = useLocation()

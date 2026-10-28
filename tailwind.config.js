@@ -17,7 +17,7 @@ export default {
         'sun-ink': c('sun-ink'),
       },
       fontFamily: {
-        display: ['"Bricolage Grotesque"', 'system-ui', 'sans-serif'],
+        display: ['Newsreader', 'Georgia', 'serif'],
         sans: ['Figtree', 'system-ui', 'sans-serif'],
       },
     },
