@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import { Link, useParams } from 'react-router-dom'
+import LiberdadeTabs from '../components/LiberdadeTabs'
 import { TOPICS } from '../lib/topics'
 import { useSpeech } from '../lib/speech'
 
@@ -7,7 +8,7 @@ export function TopicList() {
   return (
     <main className="space-y-5">
       <header className="fade-up">
-        <Link to="/mais" className="flex min-h-[48px] items-center text-sm font-semibold text-accent">← Mais</Link>
+        <LiberdadeTabs />
         <h1 className="font-display text-3xl font-bold">Aprender</h1>
         <p className="mt-1 text-muted">Estudos curtos que unem Bíblia, entendimento da mente e cuidado emocional.</p>
       </header>

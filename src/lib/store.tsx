@@ -1,5 +1,5 @@
 import { createContext, useCallback, useContext, useEffect, useMemo, useState, type ReactNode } from 'react'
-import type { AppState, Slip } from './types'
+import type { AppState, BibleMark, Slip } from './types'
 import { addDays, dayKey, diffDays } from './dates'
 import { MILESTONES } from './content'
 
@@ -17,6 +17,12 @@ export const emptyState = (): AppState => ({
   celebrated: [],
   trailDone: [],
   trailNotes: {},
+  marks: {},
+  lastRead: null,
+  plans: {},
+  prayers: [],
+  journal: [],
+  fontScale: 1,
   partner: { name: '', phone: '' },
   theme: 'auto',
   pinHash: null,
@@ -40,6 +46,12 @@ export const normalize = (raw: unknown): AppState => {
     celebrated: Array.isArray(r.celebrated) ? r.celebrated : [],
     trailDone: Array.isArray(r.trailDone) ? r.trailDone : [],
     trailNotes: r.trailNotes && typeof r.trailNotes === 'object' ? r.trailNotes : {},
+    marks: r.marks && typeof r.marks === 'object' ? r.marks : {},
+    plans: r.plans && typeof r.plans === 'object' ? r.plans : {},
+    prayers: Array.isArray(r.prayers) ? r.prayers : [],
+    journal: Array.isArray(r.journal) ? r.journal : [],
+    lastRead: r.lastRead ?? null,
+    fontScale: r.fontScale === 0 || r.fontScale === 2 ? r.fontScale : 1,
     profile: r.profile ? { ...r.profile, why: r.profile.why ?? '' } : null,
     banked: Number.isFinite(r.banked) ? Number(r.banked) : 0,
   }
@@ -68,6 +80,9 @@ interface Store {
   toggleDay: (key: 'readDays' | 'practiceDays') => void
   celebrate: (upTo: number) => void
   completeLesson: (n: number, note: string) => void
+  setMark: (key: string, patch: Partial<BibleMark>) => void
+  setLastRead: (book: string, chapter: number) => void
+  togglePlanDay: (planId: string, day: number) => void
   saveCheckin: (c: { mood: 1 | 2 | 3 | 4 | 5; triggers: string[]; note: string }) => void
   logSos: (outcome: 'passed' | 'slipped') => void
   registerSlip: (s: Omit<Slip, 'id' | 'streakDays'>) => void
@@ -98,7 +113,7 @@ export function StoreProvider({ children }: { children: ReactNode }) {
         setState((s) => ({
           ...s,
           profile: { name: name.trim(), goal, why: why.trim() },
-          celebrated: MILESTONES.filter((m) => m.days < Math.max(daysSoFar, 1)).map((m) => m.days),
+          celebrated: MILESTONES.filter((m) => m.days <= Math.max(daysSoFar, 1)).map((m) => m.days),
           streakStart: addDays(dayKey(), -Math.max(0, daysSoFar - 1)),
           banked: 0,
         })),
@@ -115,6 +130,22 @@ export function StoreProvider({ children }: { children: ReactNode }) {
           trailDone: s.trailDone.includes(n) ? s.trailDone : [...s.trailDone, n].sort((a, b) => a - b),
           trailNotes: note.trim() ? { ...s.trailNotes, [n]: note.trim() } : s.trailNotes,
         })),
+      setMark: (key, patch) =>
+        setState((s) => {
+          const next = { ...(s.marks[key] ?? {}), ...patch }
+          const marks = { ...s.marks }
+          if (!next.color && !next.note && !next.fav) delete marks[key]
+          else marks[key] = next
+          return { ...s, marks }
+        }),
+      setLastRead: (book, chapter) =>
+        setState((s) => (s.lastRead?.book === book && s.lastRead.chapter === chapter ? s : { ...s, lastRead: { book, chapter } })),
+      togglePlanDay: (planId, day) =>
+        setState((s) => {
+          const cur = s.plans[planId] ?? { startedAt: new Date().toISOString(), done: [] }
+          const done = cur.done.includes(day) ? cur.done.filter((d) => d !== day) : [...cur.done, day].sort((a, b) => a - b)
+          return { ...s, plans: { ...s.plans, [planId]: { ...cur, done } } }
+        }),
       saveCheckin: (c) =>
         setState((s) => {
           const date = dayKey()
@@ -176,4 +207,11 @@ export const currentLesson = (s: AppState): number => {
   const goal = s.profile?.goal ?? 21
   for (let n = 1; n <= goal; n++) if (!s.trailDone.includes(n)) return n
   return goal + 1
+}
+
+/** Primeiro dia ainda não concluído de um plano (0-based); `total` quando acabou. */
+export const planCursor = (s: AppState, planId: string, total: number): number => {
+  const done = s.plans[planId]?.done ?? []
+  for (let d = 0; d < total; d++) if (!done.includes(d)) return d
+  return total
 }

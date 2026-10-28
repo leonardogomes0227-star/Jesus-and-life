@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import { Link } from 'react-router-dom'
+import LiberdadeTabs from '../components/LiberdadeTabs'
 import { PLACES, TRIGGERS, VERSES } from '../lib/content'
 import { toLocalInput } from '../lib/dates'
 import { totalDays, useStore } from '../lib/store'
@@ -36,6 +37,7 @@ export default function Slip() {
 
   return (
     <main className="space-y-5 fade-up">
+      <LiberdadeTabs />
       <header>
         <h1 className="font-display text-3xl font-bold">Queda sem culpa</h1>
         <p className="mt-2 text-muted">Aqui não tem julgamento. Entender o que aconteceu ajuda a se preparar melhor. Responda só o que quiser.</p>

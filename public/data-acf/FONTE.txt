@@ -1,0 +1,5 @@
+Texto: Almeida Corrigida Fiel (ACF), em portugues.
+Fonte dos dados: projeto comunitario thiagobodruk/biblia (JSON).
+ATENCAO: confirme a licenca/permissao de uso da ACF antes de publicar em larga escala,
+ou substitua estes arquivos por uma versao de dominio publico. O app le apenas /data-acf/<livro>.json
+(lista de capitulos; cada capitulo e uma lista de versiculos).

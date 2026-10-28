@@ -47,8 +47,39 @@ export interface AppState {
   celebrated: number[] // conquistas já comemoradas
   trailDone: number[] // lições da trilha concluídas (ritmo próprio, sem expirar)
   trailNotes: Record<string, string> // anotações por lição
+  marks: Record<string, BibleMark> // chave: livro.capítulo.versículo
+  lastRead: { book: string; chapter: number } | null
+  plans: Record<string, PlanProgress>
+  prayers: Prayer[]
+  journal: JournalEntry[]
+  fontScale: 0 | 1 | 2
   partner: Partner
   theme: ThemePref
   pinHash: string | null
   createdAt: string
+}
+
+export type MarkColor = 'amarelo' | 'azul' | 'verde'
+export interface BibleMark {
+  color?: MarkColor
+  note?: string
+  fav?: boolean
+}
+export interface PlanProgress {
+  startedAt: string
+  done: number[] // índices de dia concluídos (0-based)
+}
+export interface Prayer {
+  id: string
+  text: string
+  createdAt: string
+  prayedCount: number
+  answeredAt?: string
+  answerNote?: string
+}
+export interface JournalEntry {
+  id: string
+  at: string
+  kind: 'gratidao' | 'reflexao' | 'livre'
+  text: string
 }

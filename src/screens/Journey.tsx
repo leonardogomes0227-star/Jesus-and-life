@@ -1,3 +1,4 @@
+import LiberdadeTabs from '../components/LiberdadeTabs'
 import CountUp from '../components/CountUp'
 import Heatmap from '../components/Heatmap'
 import MoodChart from '../components/MoodChart'
@@ -45,6 +46,7 @@ export default function Journey() {
 
   return (
     <main className="space-y-5">
+      <LiberdadeTabs />
       <header className="fade-up">
         <h1 className="font-display text-3xl font-bold">Jornada</h1>
         <p className="mt-1 text-muted">Para onde você já caminhou.</p>

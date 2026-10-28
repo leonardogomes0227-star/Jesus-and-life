@@ -1,6 +1,8 @@
 import { Link } from 'react-router-dom'
+import LiberdadeTabs from '../components/LiberdadeTabs'
+import SunScene from '../components/SunScene'
 import { LESSONS, PHASES } from '../lib/trail'
-import { currentLesson, useStore } from '../lib/store'
+import { bestStreak, currentLesson, streakDay, totalDays, useStore } from '../lib/store'
 
 export default function Trail() {
   const { state, update } = useStore()
@@ -15,6 +17,16 @@ export default function Trail() {
 
   return (
     <main className="space-y-5">
+      <LiberdadeTabs />
+      <section className="card !p-3">
+        <SunScene progress={streakDay(state) / goal} goal={goal} day={streakDay(state)} />
+        <div className="grid grid-cols-3 gap-2 pt-3">
+          {[[streakDay(state), 'dia atual'], [totalDays(state), 'dias acumulados'], [bestStreak(state), 'melhor sequência']].map(([n, l]) => (
+            <div key={l} className="rounded-2xl bg-bg px-2 py-3 text-center"><p className="font-display text-2xl font-bold">{n}</p><p className="text-[11px] font-medium leading-tight text-muted">{l}</p></div>
+          ))}
+        </div>
+        <p className="px-2 pb-1 pt-3 text-center text-xs text-muted">Seu total nunca zera. Se houver uma queda, a sequência recomeça e o total continua.</p>
+      </section>
       <header className="fade-up">
         <h1 className="font-display text-3xl font-bold">Trilha de {goal} dias</h1>
         <p className="mt-1 text-muted">Uma lição por dia, no seu ritmo. Não expira e não zera: se você parar, continua de onde estava.</p>

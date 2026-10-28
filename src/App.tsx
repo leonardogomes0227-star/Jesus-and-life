@@ -4,7 +4,14 @@ import { useStore } from './lib/store'
 import TabBar from './components/TabBar'
 import PinLock from './components/PinLock'
 import Welcome from './screens/Welcome'
-import Today from './screens/Today'
+import Home from './screens/Home'
+import Read from './screens/Read'
+import Devotional from './screens/Devotional'
+import Session from './screens/Session'
+import { BibleHome, BookPage, Reader } from './screens/Bible'
+import { PlanList, PlanPage } from './screens/Plans'
+import Prayer from './screens/Prayer'
+import { RestList, RestPlayer } from './screens/Rest'
 import Sos from './screens/Sos'
 import Slip from './screens/Slip'
 import Journey from './screens/Journey'
@@ -12,7 +19,6 @@ import Partner from './screens/Partner'
 import Settings from './screens/Settings'
 import Trail from './screens/Trail'
 import Lesson from './screens/Lesson'
-import More from './screens/More'
 import { TopicList, TopicPage } from './screens/Topics'
 
 const UNLOCK_KEY = 'livre.unlocked'
@@ -23,8 +29,8 @@ function Shell() {
     window.scrollTo(0, 0)
   }, [pathname])
   return (
-    <div className="mx-auto min-h-screen w-full max-w-[520px] px-5 pb-32 pt-[max(1.5rem,env(safe-area-inset-top))]">
-      <div key={pathname} className="fade-up">
+    <div className="min-h-screen w-full px-5 pb-32 md:pb-16 md:pl-60 pt-[max(1.5rem,env(safe-area-inset-top))]">
+      <div key={pathname} className="fade-up mx-auto w-full max-w-[520px] md:max-w-[680px] md:px-8">
         <Outlet />
       </div>
       <TabBar />
@@ -75,11 +81,21 @@ export default function App() {
   return (
     <Routes>
       <Route element={<Shell />}>
-        <Route path="/" element={<Today />} />
+        <Route path="/" element={<Home />} />
+        <Route path="/ler" element={<Read />} />
+        <Route path="/devocional" element={<Devotional />} />
+        <Route path="/agora/:m" element={<Session />} />
+        <Route path="/biblia" element={<BibleHome />} />
+        <Route path="/biblia/:book" element={<BookPage />} />
+        <Route path="/biblia/:book/:chapter" element={<Reader />} />
+        <Route path="/planos" element={<PlanList />} />
+        <Route path="/planos/:id" element={<PlanPage />} />
+        <Route path="/orar" element={<Prayer />} />
+        <Route path="/descanso" element={<RestList />} />
+        <Route path="/descanso/:id" element={<RestPlayer />} />
         <Route path="/trilha" element={<Trail />} />
         <Route path="/trilha/:n" element={<Lesson />} />
         <Route path="/jornada" element={<Journey />} />
-        <Route path="/mais" element={<More />} />
         <Route path="/temas" element={<TopicList />} />
         <Route path="/temas/:id" element={<TopicPage />} />
         <Route path="/parceiro" element={<Partner />} />

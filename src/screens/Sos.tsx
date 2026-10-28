@@ -5,6 +5,8 @@ import { SOS_ACTIONS, SOS_VERSE } from '../lib/content'
 import { normalizePhone, waLink } from '../lib/whatsapp'
 import { useStore } from '../lib/store'
 import { speak, stopSpeaking } from '../lib/speech'
+import AudioPlayer from '../components/AudioPlayer'
+import { AUDIO_SESSIONS } from '../lib/audio'
 
 const PHASES = [
   { label: 'Inspire', secs: 4, scale: 1 },
@@ -85,8 +87,11 @@ function Countdown() {
   )
 }
 
-const CALM_SCRIPT =
-  'Pare por um momento. Você não está sozinho. Seus pés estão no chão. Sinta o apoio sob você. Respire fundo e solte devagar. O que você sente agora é uma onda. Ela sobe, chega ao topo e desce. Você não precisa lutar contra ela. Você só precisa esperar, respirando. Deus está com você neste exato momento. Você já passou por ondas antes, e esta também vai passar. Continue respirando. Faça uma das ações da lista. Você consegue.'
+const QUESTIONS = [
+  'O que eu estou sentindo de verdade agora? Cansaço, solidão, tédio, ansiedade?',
+  'O que eu realmente preciso neste momento?',
+  'Qual é a menor ação que eu posso fazer agora?',
+]
 
 const ENCOURAGE = [
   'Isso é uma onda. Ela sobe, chega ao topo e desce.',
@@ -103,6 +108,7 @@ export default function Sos() {
   const [won, setWon] = useState(false)
   const [msg, setMsg] = useState(0)
   const [voice, setVoice] = useState(false)
+  const [audio, setAudio] = useState(false)
   const canSpeak = typeof window !== 'undefined' && 'speechSynthesis' in window
   const partnerOk = !!normalizePhone(state.partner.phone)
   const waves = state.sos.filter((s) => s.outcome === 'passed').length
@@ -142,12 +148,20 @@ export default function Sos() {
 
         <Breathing voice={voice} />
         {canSpeak && (
-          <div className="grid grid-cols-2 gap-3">
-            <button className="btn-ghost !px-3 text-sm" aria-pressed={voice} onClick={() => { setVoice((v) => !v); stopSpeaking() }}>{voice ? '🔊 Voz ligada' : '🔈 Voz guiada'}</button>
-            <button className="btn-ghost !px-3 text-sm" onClick={() => speak(CALM_SCRIPT, 0.85)}>🎧 Áudio de acolhimento</button>
-          </div>
+          <button className="btn-ghost w-full text-sm" aria-pressed={voice} onClick={() => { setVoice((v) => !v); stopSpeaking() }}>{voice ? 'Voz da respiração: ligada' : 'Ligar voz da respiração'}</button>
         )}
         <Countdown />
+
+        {audio ? (
+          <AudioPlayer session={AUDIO_SESSIONS[0]} onClose={() => setAudio(false)} />
+        ) : (
+          <button className="btn-ghost w-full" onClick={() => setAudio(true)}>Ouvir o áudio de 3 minutos para quebrar o ciclo</button>
+        )}
+
+        <section className="card space-y-2">
+          <h2 className="font-display text-xl font-bold">Pergunte-se</h2>
+          <ol className="list-decimal space-y-2 pl-5 text-[15px]">{QUESTIONS.map((q) => <li key={q}>{q}</li>)}</ol>
+        </section>
 
         {(state.profile?.why || waves > 0) && (
           <section className="card space-y-3">
