@@ -20,7 +20,9 @@ function Shell() {
   }, [pathname])
   return (
     <div className="mx-auto min-h-screen w-full max-w-[520px] px-5 pb-32 pt-[max(1.5rem,env(safe-area-inset-top))]">
-      <Outlet />
+      <div key={pathname} className="fade-up">
+        <Outlet />
+      </div>
       <TabBar />
     </div>
   )

@@ -73,3 +73,21 @@ h1, h2, h3 { font-family: 'Bricolage Grotesque', system-ui, sans-serif; }
 @keyframes fade-up { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: none; } }
 .fade-up { animation: fade-up 0.35s ease both; }
 @media (prefers-reduced-motion: reduce) { .fade-up { animation: none; } }
+
+:root { --stars: 0; }
+@media (prefers-color-scheme: dark) { :root:not([data-theme='light']) { --stars: 0.9; } }
+[data-theme='dark'] { --stars: 0.9; }
+
+@keyframes pulse-glow { 0%, 100% { opacity: 0.18; transform: scale(1); } 50% { opacity: 0.34; transform: scale(1.18); } }
+@keyframes spin-slow { to { transform: rotate(360deg); } }
+@keyframes twinkle { 0%, 100% { opacity: 0.2; } 50% { opacity: 1; } }
+@keyframes confetti-fall {
+  0% { transform: translate3d(0, -20px, 0) rotate(0deg); opacity: 1; }
+  100% { transform: translate3d(var(--dx), 105vh, 0) rotate(720deg); opacity: 0.9; }
+}
+@keyframes pop { 0% { transform: scale(0.85); opacity: 0; } 100% { transform: scale(1); opacity: 1; } }
+.pop { animation: pop 0.3s cubic-bezier(0.2, 1.2, 0.4, 1) both; }
+.glow { transform-box: fill-box; transform-origin: center; animation: pulse-glow 3.2s ease-in-out infinite; }
+.rays { transform-box: fill-box; transform-origin: center; animation: spin-slow 40s linear infinite; }
+.star { animation: twinkle 3s ease-in-out infinite; }
+@media (prefers-reduced-motion: reduce) { .glow, .rays, .star { animation: none; } }

@@ -1,0 +1,11 @@
+{
+  "name": "Livre",
+  "short_name": "Livre",
+  "description": "Devocional e apoio a hábitos, com acolhimento e sem culpa.",
+  "lang": "pt-BR",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#F2F4F0",
+  "theme_color": "#0E5F57",
+  "icons": [{ "src": "/favicon.svg", "sizes": "any", "type": "image/svg+xml", "purpose": "any" }]
+}

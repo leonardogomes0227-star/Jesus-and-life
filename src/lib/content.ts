@@ -93,9 +93,77 @@ export const VERSES: Verse[] = [
   },
 ]
 
+export const PRAYERS = [
+  'Senhor, eu não tenho força suficiente sozinho. Hoje eu recebo a tua. Guia meus passos, um de cada vez. Amém.',
+  'Pai, obrigado porque sempre existe uma saída contigo. Abre meus olhos para enxergá-la quando eu precisar. Amém.',
+  'Deus, tu és meu refúgio. Hoje eu corro para ti do jeito que estou, cansado e imperfeito. Fica comigo. Amém.',
+  'Jesus, eu quero viver a liberdade que tu me deste. Ensina-me a andar nela com paciência e verdade. Amém.',
+  'Senhor, tua misericórdia é nova a cada manhã. Obrigado por este dia. Ajuda-me a recebê-lo com gratidão. Amém.',
+  'Pai, tira o medo do meu coração. Lembra-me de que tu estás comigo em cada lugar por onde eu andar hoje. Amém.',
+  'Deus, tu estás perto de quem está quebrantado. Eu venho como estou. Cuida do meu coração. Amém.',
+  'Senhor, livra-me da culpa que não vem de ti. Quero começar sempre pela tua graça. Amém.',
+  'Jesus, estou cansado e venho a ti. Dá-me descanso para o corpo, para a mente e para a alma. Amém.',
+  'Pai, mostra-me o que ainda me prende e dá-me sabedoria para mudar o que posso mudar hoje. Amém.',
+  'Senhor, obrigado por me levantares todas as vezes. Ajuda-me a nunca desistir do caminho contigo. Amém.',
+  'Deus, quando meu pé resvalar, sustenta-me. Dá-me humildade para pedir ajuda e coragem para continuar. Amém.',
+  'Senhor, tua graça me basta. Naquilo em que me sinto fraco, mostra o teu poder. Amém.',
+  'Pai, dá-me coragem para o passo de hoje. Que eu saiba que não ando sozinho em lugar nenhum. Amém.',
+]
+
+export const PROMPTS = [
+  'Em que área da minha vida eu mais preciso de força hoje?',
+  'Qual foi a última saída que Deus me mostrou num momento difícil?',
+  'Quando foi a última vez que me senti seguro(a)? O que estava ao meu redor?',
+  'Como seria um dia livre para mim? Descreva em três frases.',
+  'Pelo que sou grato(a) nesta manhã?',
+  'O que eu estou carregando sozinho(a) e posso entregar a Deus?',
+  'Que parte de mim precisa de cuidado e não de cobrança?',
+  'Que pensamento de condenação aparece mais? O que a graça responde a ele?',
+  'O que está me cansando e o que seria um descanso de verdade?',
+  'Qual pequena mudança no meu ambiente me ajudaria nesta semana?',
+  'Qual foi uma vez em que me levantei? O que me ajudou?',
+  'Quem posso procurar quando estiver difícil? Quando vou fazer isso?',
+  'Em que ponto fraco eu quero experimentar a graça de Deus?',
+  'Qual é o passo de coragem que me espera hoje?',
+]
+
+export interface Milestone { days: number; title: string; emoji: string; text: string }
+export const MILESTONES: Milestone[] = [
+  { days: 1, title: 'Primeiro passo', emoji: '🌱', text: 'Todo caminho começa com um dia. Você começou.' },
+  { days: 3, title: 'Três dias', emoji: '🌤️', text: 'Os primeiros dias são os mais difíceis. Você está atravessando.' },
+  { days: 7, title: 'Uma semana', emoji: '☀️', text: 'Sete dias. Um ciclo inteiro de manhãs novas.' },
+  { days: 14, title: 'Duas semanas', emoji: '🌅', text: 'Seu corpo e sua rotina já estão se ajustando.' },
+  { days: 21, title: 'Hábito em formação', emoji: '🌿', text: '21 dias de constância. Algo novo está criando raiz.' },
+  { days: 30, title: 'Um mês', emoji: '🌳', text: 'Um mês de liberdade construída dia após dia.' },
+  { days: 60, title: 'Dois meses', emoji: '⛰️', text: 'Você já olha para trás e vê o quanto subiu.' },
+  { days: 90, title: '90 dias', emoji: '🕊️', text: 'Noventa dias. A liberdade já tem a sua cara.' },
+  { days: 180, title: 'Meio ano', emoji: '🌄', text: 'Seis meses de graça sustentando você.' },
+  { days: 365, title: 'Um ano', emoji: '🏔️', text: 'Um ano inteiro. Gratidão por cada passo.' },
+]
+
+export const MOOD_REPLIES: Record<number, string> = {
+  1: 'Dias pesados fazem parte do caminho. Você não precisa dar conta de tudo hoje. Respire, e se precisar, o SOS está aqui.',
+  2: 'Obrigado por ser sincero(a). Um dia baixo não apaga o que você já construiu. Seja gentil consigo.',
+  3: 'Um dia comum também é uma vitória. Constância é feita de dias assim.',
+  4: 'Que bom saber disso! Guarde o que está fazendo bem para os dias mais difíceis.',
+  5: 'Que alegria! Agradeça por esse dia e lembre dele quando as ondas vierem.',
+}
+
+export const WHY_IDEAS = [
+  'Ter paz com Deus e comigo mesmo',
+  'Ser exemplo para minha família',
+  'Viver sem segredos',
+  'Cuidar da minha mente e do meu coração',
+  'Ter relacionamentos mais saudáveis',
+]
+
 export const SOS_VERSE = VERSES[1]
 
-export const verseOfDay = (dayIndex: number): Verse => VERSES[((dayIndex % 14) + 14) % 14]
+export const verseIndex = (dayIndex: number): number => ((dayIndex % 14) + 14) % 14
+export const verseOfDay = (dayIndex: number) => {
+  const i = verseIndex(dayIndex)
+  return { ...VERSES[i], prayer: PRAYERS[i], prompt: PROMPTS[i] }
+}
 
 export const MOODS = [
   { value: 1, emoji: '😞', label: 'Pesado' },

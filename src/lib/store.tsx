@@ -1,6 +1,7 @@
 import { createContext, useCallback, useContext, useEffect, useMemo, useState, type ReactNode } from 'react'
 import type { AppState, Slip } from './types'
 import { addDays, dayKey, diffDays } from './dates'
+import { MILESTONES } from './content'
 
 export const STORAGE_KEY = 'livre.v1'
 
@@ -11,6 +12,9 @@ export const emptyState = (): AppState => ({
   checkins: [],
   slips: [],
   sos: [],
+  readDays: [],
+  practiceDays: [],
+  celebrated: [],
   partner: { name: '', phone: '' },
   theme: 'auto',
   pinHash: null,
@@ -29,6 +33,10 @@ export const normalize = (raw: unknown): AppState => {
     checkins: Array.isArray(r.checkins) ? r.checkins : [],
     slips: Array.isArray(r.slips) ? r.slips : [],
     sos: Array.isArray(r.sos) ? r.sos : [],
+    readDays: Array.isArray(r.readDays) ? r.readDays : [],
+    practiceDays: Array.isArray(r.practiceDays) ? r.practiceDays : [],
+    celebrated: Array.isArray(r.celebrated) ? r.celebrated : [],
+    profile: r.profile ? { ...r.profile, why: r.profile.why ?? '' } : null,
     banked: Number.isFinite(r.banked) ? Number(r.banked) : 0,
   }
 }
@@ -52,7 +60,9 @@ export const totalDays = (s: AppState, today = dayKey()): number => s.banked + s
 interface Store {
   state: AppState
   update: (fn: (s: AppState) => AppState) => void
-  start: (name: string, daysSoFar: number, goal: 21 | 90) => void
+  start: (name: string, daysSoFar: number, goal: 21 | 90, why: string) => void
+  toggleDay: (key: 'readDays' | 'practiceDays') => void
+  celebrate: (upTo: number) => void
   saveCheckin: (c: { mood: 1 | 2 | 3 | 4 | 5; triggers: string[]; note: string }) => void
   logSos: (outcome: 'passed' | 'slipped') => void
   registerSlip: (s: Omit<Slip, 'id' | 'streakDays'>) => void
@@ -79,13 +89,21 @@ export function StoreProvider({ children }: { children: ReactNode }) {
     () => ({
       state,
       update,
-      start: (name, daysSoFar, goal) =>
+      start: (name, daysSoFar, goal, why) =>
         setState((s) => ({
           ...s,
-          profile: { name: name.trim(), goal },
+          profile: { name: name.trim(), goal, why: why.trim() },
+          celebrated: MILESTONES.filter((m) => m.days < Math.max(daysSoFar, 1)).map((m) => m.days),
           streakStart: addDays(dayKey(), -Math.max(0, daysSoFar - 1)),
           banked: 0,
         })),
+      toggleDay: (key) =>
+        setState((s) => {
+          const d = dayKey()
+          return { ...s, [key]: s[key].includes(d) ? s[key].filter((x) => x !== d) : [...s[key], d] }
+        }),
+      celebrate: (upTo) =>
+        setState((s) => ({ ...s, celebrated: MILESTONES.filter((m) => m.days <= upTo).map((m) => m.days) })),
       saveCheckin: (c) =>
         setState((s) => {
           const date = dayKey()
@@ -138,3 +156,6 @@ export const hashPin = (pin: string): string => {
   for (let i = 0; i < s.length; i++) h = ((h << 5) + h + s.charCodeAt(i)) | 0
   return String(h >>> 0)
 }
+
+/** Melhor sequência já registrada. */
+export const bestStreak = (s: AppState): number => Math.max(streakDay(s), ...s.slips.map((x) => x.streakDays - 1))

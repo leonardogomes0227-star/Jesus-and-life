@@ -63,6 +63,10 @@ export default function Settings() {
           <input id="n" className="field" value={profile.name} maxLength={40} onChange={(e) => setProfile({ name: e.target.value })} />
         </div>
         <div>
+          <label className="label" htmlFor="why">Meu porquê</label>
+          <textarea id="why" className="field py-3" rows={3} maxLength={280} value={profile.why ?? ''} onChange={(e) => setProfile({ why: e.target.value })} placeholder="O motivo que me faz continuar" />
+        </div>
+        <div>
           <p className="label">Meta</p>
           <div className="grid grid-cols-2 gap-3">
             {([21, 90] as const).map((g) => (

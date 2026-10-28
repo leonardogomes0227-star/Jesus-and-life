@@ -4,6 +4,7 @@ export type ThemePref = 'auto' | 'light' | 'dark'
 export interface Profile {
   name: string
   goal: 21 | 90
+  why: string // "meu porquê"
 }
 
 export interface Checkin {
@@ -41,6 +42,9 @@ export interface AppState {
   checkins: Checkin[]
   slips: Slip[]
   sos: SosEvent[]
+  readDays: string[] // dias com devocional lido
+  practiceDays: string[] // dias com prática feita
+  celebrated: number[] // conquistas já comemoradas
   partner: Partner
   theme: ThemePref
   pinHash: string | null
