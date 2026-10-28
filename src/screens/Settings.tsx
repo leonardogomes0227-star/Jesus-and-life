@@ -110,6 +110,12 @@ export default function Settings() {
         {msg && <p className="text-sm text-accent" role="status">{msg}</p>}
       </section>
 
+      <section className="card space-y-2">
+        <h2 className="font-display text-xl font-bold">Sobre esta versão</h2>
+        <p className="text-sm text-muted">Versão <strong className="text-ink">{__BUILD_ID__}</strong> · publicada em {new Date(__BUILD_TIME__).toLocaleString('pt-BR', { dateStyle: 'short', timeStyle: 'short' })}</p>
+        <p className="text-xs text-muted">Se algo parecer desatualizado, confira se este código é o mesmo do último deploy na Vercel.</p>
+      </section>
+
       <section className="card space-y-3">
         <h2 className="font-display text-xl font-bold">Apagar tudo</h2>
         <p className="text-sm text-muted">Remove todos os dados deste aparelho. Não dá para desfazer.</p>

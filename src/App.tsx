@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react'
 import { Navigate, Outlet, Route, Routes, useLocation } from 'react-router-dom'
 import { useStore } from './lib/store'
 import TabBar from './components/TabBar'
+import UpdateBanner from './components/UpdateBanner'
 import PinLock from './components/PinLock'
 import Welcome from './screens/Welcome'
 import Home from './screens/Home'
@@ -34,6 +35,7 @@ function Shell() {
         <Outlet />
       </div>
       <TabBar />
+      <UpdateBanner />
     </div>
   )
 }

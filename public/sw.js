@@ -1,5 +1,5 @@
 // Livre: modo offline simples. Páginas e arquivos do app em cache; a Bíblia é guardada ao ser lida.
-const VERSION = 'livre-v3'
+const VERSION = 'livre-__BUILD_ID__'
 const SHELL = ['/', '/favicon.svg', '/manifest.webmanifest']
 
 self.addEventListener('install', (e) => {
