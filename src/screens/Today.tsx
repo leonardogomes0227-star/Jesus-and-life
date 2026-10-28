@@ -5,7 +5,8 @@ import CountUp from '../components/CountUp'
 import SunScene from '../components/SunScene'
 import { MILESTONES, MOODS, MOOD_REPLIES, TRIGGERS, verseOfDay } from '../lib/content'
 import { addDays, dayKey, diffDays } from '../lib/dates'
-import { bestStreak, streakDay, totalDays, useStore } from '../lib/store'
+import { bestStreak, currentLesson, streakDay, totalDays, useStore } from '../lib/store'
+import { LESSONS } from '../lib/trail'
 import type { Mood } from '../lib/types'
 
 const WEEKDAYS = ['D', 'S', 'T', 'Q', 'Q', 'S', 'S']
@@ -43,6 +44,8 @@ export default function Today() {
   const prev = [...MILESTONES].reverse().find((m) => m.days <= total)?.days ?? 0
   const nextPct = next ? ((total - prev) / (next.days - prev)) * 100 : 100
 
+  const lessonN = currentLesson(state)
+  const lesson = LESSONS.find((l) => l.n === lessonN)
   const ritual = [read, practiced, !!done].filter(Boolean).length
   const hour = new Date().getHours()
   const greeting = hour < 12 ? 'Bom dia' : hour < 18 ? 'Boa tarde' : 'Boa noite'
@@ -137,6 +140,17 @@ export default function Today() {
           <p className="text-xs font-bold uppercase tracking-wide opacity-80">Meu porquê</p>
           <p className="mt-1 font-display text-xl leading-snug">“{profile.why}”</p>
         </section>
+      )}
+
+      {lesson && lessonN <= profile.goal && (
+        <Link to={`/trilha/${lessonN}`} className="card fade-up flex items-center gap-4 active:scale-[0.99]">
+          <span className="flex h-14 w-14 shrink-0 items-center justify-center rounded-2xl bg-accent text-2xl text-accent-ink" aria-hidden>📖</span>
+          <span className="min-w-0 flex-1">
+            <span className="block text-sm font-semibold text-muted">Sua trilha · dia {lessonN} de {profile.goal}</span>
+            <span className="block truncate font-display text-lg font-bold">{lesson.title}</span>
+            <span className="block text-xs text-accent font-semibold">{state.trailDone.length === 0 ? 'Começar a trilha' : 'Continuar de onde parou'} →</span>
+          </span>
+        </Link>
       )}
 
       <section className="card fade-up">

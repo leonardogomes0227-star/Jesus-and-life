@@ -10,6 +10,10 @@ import Slip from './screens/Slip'
 import Journey from './screens/Journey'
 import Partner from './screens/Partner'
 import Settings from './screens/Settings'
+import Trail from './screens/Trail'
+import Lesson from './screens/Lesson'
+import More from './screens/More'
+import { TopicList, TopicPage } from './screens/Topics'
 
 const UNLOCK_KEY = 'livre.unlocked'
 
@@ -72,7 +76,12 @@ export default function App() {
     <Routes>
       <Route element={<Shell />}>
         <Route path="/" element={<Today />} />
+        <Route path="/trilha" element={<Trail />} />
+        <Route path="/trilha/:n" element={<Lesson />} />
         <Route path="/jornada" element={<Journey />} />
+        <Route path="/mais" element={<More />} />
+        <Route path="/temas" element={<TopicList />} />
+        <Route path="/temas/:id" element={<TopicPage />} />
         <Route path="/parceiro" element={<Partner />} />
         <Route path="/ajustes" element={<Settings />} />
         <Route path="/queda" element={<Slip />} />

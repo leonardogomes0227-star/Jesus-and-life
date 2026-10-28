@@ -4,6 +4,7 @@ import Confetti from '../components/Confetti'
 import { SOS_ACTIONS, SOS_VERSE } from '../lib/content'
 import { normalizePhone, waLink } from '../lib/whatsapp'
 import { useStore } from '../lib/store'
+import { speak, stopSpeaking } from '../lib/speech'
 
 const PHASES = [
   { label: 'Inspire', secs: 4, scale: 1 },
@@ -21,7 +22,7 @@ const buzz = (ms: number) => {
   }
 }
 
-function Breathing() {
+function Breathing({ voice }: { voice: boolean }) {
   const [phase, setPhase] = useState(0)
   const [left, setLeft] = useState<number>(PHASES[0].secs)
   const [cycles, setCycles] = useState(0)
@@ -40,10 +41,11 @@ function Breathing() {
       if (last.current !== i) {
         last.current = i
         buzz(i === 1 ? 15 : 30)
+        if (voice) speak(PHASES[i].label, 0.8)
       }
     }, 150)
     return () => clearInterval(id)
-  }, [])
+  }, [voice])
 
   const p = PHASES[phase]
   const tr = `transform ${phase === 1 ? 0 : p.secs}s ease-in-out`
@@ -83,6 +85,9 @@ function Countdown() {
   )
 }
 
+const CALM_SCRIPT =
+  'Pare por um momento. Você não está sozinho. Seus pés estão no chão. Sinta o apoio sob você. Respire fundo e solte devagar. O que você sente agora é uma onda. Ela sobe, chega ao topo e desce. Você não precisa lutar contra ela. Você só precisa esperar, respirando. Deus está com você neste exato momento. Você já passou por ondas antes, e esta também vai passar. Continue respirando. Faça uma das ações da lista. Você consegue.'
+
 const ENCOURAGE = [
   'Isso é uma onda. Ela sobe, chega ao topo e desce.',
   'Você não precisa decidir o resto da vida, só os próximos minutos.',
@@ -97,6 +102,8 @@ export default function Sos() {
   const [done, setDone] = useState<string[]>([])
   const [won, setWon] = useState(false)
   const [msg, setMsg] = useState(0)
+  const [voice, setVoice] = useState(false)
+  const canSpeak = typeof window !== 'undefined' && 'speechSynthesis' in window
   const partnerOk = !!normalizePhone(state.partner.phone)
   const waves = state.sos.filter((s) => s.outcome === 'passed').length
   const lastPlan = useMemo(() => [...state.slips].reverse().find((s) => s.plan)?.plan, [state.slips])
@@ -104,7 +111,10 @@ export default function Sos() {
 
   useEffect(() => {
     const id = setInterval(() => setMsg((m) => (m + 1) % ENCOURAGE.length), 9000)
-    return () => clearInterval(id)
+    return () => {
+      clearInterval(id)
+      stopSpeaking()
+    }
   }, [])
 
   if (won) {
@@ -130,7 +140,13 @@ export default function Sos() {
         </div>
         <p key={msg} className="fade-up min-h-[3.5rem] text-lg text-muted">{ENCOURAGE[msg]}</p>
 
-        <Breathing />
+        <Breathing voice={voice} />
+        {canSpeak && (
+          <div className="grid grid-cols-2 gap-3">
+            <button className="btn-ghost !px-3 text-sm" aria-pressed={voice} onClick={() => { setVoice((v) => !v); stopSpeaking() }}>{voice ? '🔊 Voz ligada' : '🔈 Voz guiada'}</button>
+            <button className="btn-ghost !px-3 text-sm" onClick={() => speak(CALM_SCRIPT, 0.85)}>🎧 Áudio de acolhimento</button>
+          </div>
+        )}
         <Countdown />
 
         {(state.profile?.why || waves > 0) && (

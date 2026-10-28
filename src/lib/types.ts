@@ -45,6 +45,8 @@ export interface AppState {
   readDays: string[] // dias com devocional lido
   practiceDays: string[] // dias com prática feita
   celebrated: number[] // conquistas já comemoradas
+  trailDone: number[] // lições da trilha concluídas (ritmo próprio, sem expirar)
+  trailNotes: Record<string, string> // anotações por lição
   partner: Partner
   theme: ThemePref
   pinHash: string | null

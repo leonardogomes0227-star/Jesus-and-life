@@ -15,6 +15,8 @@ export const emptyState = (): AppState => ({
   readDays: [],
   practiceDays: [],
   celebrated: [],
+  trailDone: [],
+  trailNotes: {},
   partner: { name: '', phone: '' },
   theme: 'auto',
   pinHash: null,
@@ -36,6 +38,8 @@ export const normalize = (raw: unknown): AppState => {
     readDays: Array.isArray(r.readDays) ? r.readDays : [],
     practiceDays: Array.isArray(r.practiceDays) ? r.practiceDays : [],
     celebrated: Array.isArray(r.celebrated) ? r.celebrated : [],
+    trailDone: Array.isArray(r.trailDone) ? r.trailDone : [],
+    trailNotes: r.trailNotes && typeof r.trailNotes === 'object' ? r.trailNotes : {},
     profile: r.profile ? { ...r.profile, why: r.profile.why ?? '' } : null,
     banked: Number.isFinite(r.banked) ? Number(r.banked) : 0,
   }
@@ -63,6 +67,7 @@ interface Store {
   start: (name: string, daysSoFar: number, goal: 21 | 90, why: string) => void
   toggleDay: (key: 'readDays' | 'practiceDays') => void
   celebrate: (upTo: number) => void
+  completeLesson: (n: number, note: string) => void
   saveCheckin: (c: { mood: 1 | 2 | 3 | 4 | 5; triggers: string[]; note: string }) => void
   logSos: (outcome: 'passed' | 'slipped') => void
   registerSlip: (s: Omit<Slip, 'id' | 'streakDays'>) => void
@@ -104,6 +109,12 @@ export function StoreProvider({ children }: { children: ReactNode }) {
         }),
       celebrate: (upTo) =>
         setState((s) => ({ ...s, celebrated: MILESTONES.filter((m) => m.days <= upTo).map((m) => m.days) })),
+      completeLesson: (n, note) =>
+        setState((s) => ({
+          ...s,
+          trailDone: s.trailDone.includes(n) ? s.trailDone : [...s.trailDone, n].sort((a, b) => a - b),
+          trailNotes: note.trim() ? { ...s.trailNotes, [n]: note.trim() } : s.trailNotes,
+        })),
       saveCheckin: (c) =>
         setState((s) => {
           const date = dayKey()
@@ -159,3 +170,10 @@ export const hashPin = (pin: string): string => {
 
 /** Melhor sequência já registrada. */
 export const bestStreak = (s: AppState): number => Math.max(streakDay(s), ...s.slips.map((x) => x.streakDays - 1))
+
+/** Próxima lição da trilha (1 a `goal`); goal + 1 quando tudo foi concluído. */
+export const currentLesson = (s: AppState): number => {
+  const goal = s.profile?.goal ?? 21
+  for (let n = 1; n <= goal; n++) if (!s.trailDone.includes(n)) return n
+  return goal + 1
+}
