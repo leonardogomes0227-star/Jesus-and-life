@@ -3,7 +3,7 @@ import { Link, useNavigate } from 'react-router-dom'
 import AudioPlayer from '../components/AudioPlayer'
 import Respire from '../components/Respire'
 import { AUDIO_SESSIONS } from '../lib/audio'
-import { SOS_VERSE, TRIGGERS } from '../lib/content'
+import { SOS_VERSE, TRIGGERS, VERSES } from '../lib/content'
 import { normalizePhone, waLink } from '../lib/whatsapp'
 import { useStore } from '../lib/store'
 
@@ -94,7 +94,7 @@ export default function Sos() {
           <h1 className="font-display text-5xl font-semibold leading-tight">Tudo bem.</h1>
           <p className="text-lg leading-relaxed text-muted">Uma queda não apaga o que você construiu, e não diz quem você é. Respire. O que importa agora é o próximo passo.</p>
           <blockquote className="rounded-3xl border border-line bg-surface p-6">
-            <p className="font-display text-xl leading-snug">“Porque sete vezes cai o justo, e se levanta.”</p>
+            <p className="font-display text-xl leading-snug">“{VERSES.find((v) => v.ref === 'Provérbios 24:16')!.text}”</p>
             <p className="mt-2 text-sm text-muted">Provérbios 24:16 · ACF</p>
           </blockquote>
           <div className="grid gap-3">

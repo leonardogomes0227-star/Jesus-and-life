@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import HourArt from '../components/HourArt'
+import { WELCOME_VERSE } from '../lib/content'
 import { useStore } from '../lib/store'
 
 export default function Welcome() {
@@ -23,8 +24,8 @@ export default function Welcome() {
       <div className="relative overflow-hidden bg-sand px-6 pb-10 pt-[max(2.5rem,env(safe-area-inset-top))] text-sand-ink md:mt-8 md:rounded-[32px]">
         <HourArt slot="manha" className="pointer-events-none absolute right-4 top-6 w-44 text-sand-ink" />
         <p className="relative font-display text-6xl font-semibold leading-none">Livre</p>
-        <p className="relative mt-24 max-w-[16rem] font-display text-3xl font-medium leading-tight">“As suas misericórdias se renovam cada manhã.”</p>
-        <p className="relative mt-2 text-sm opacity-70">Lamentações 3:22-23</p>
+        <p className="relative mt-24 max-w-[16rem] font-display text-3xl font-medium leading-tight">“{WELCOME_VERSE.text}”</p>
+        <p className="relative mt-2 text-sm opacity-70">{WELCOME_VERSE.ref} · ACF</p>
       </div>
 
       <form onSubmit={enter} className="space-y-4 px-6 py-8">

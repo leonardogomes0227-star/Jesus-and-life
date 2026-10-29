@@ -31,7 +31,7 @@ export const TOPICS: Topic[] = [
           'A Bíblia chama isso de renovação da mente: não é só reprimir, é reaprender o caminho, com paciência e com ajuda.',
         ],
         ref: 'Romanos 12:2',
-        text: 'E não sereis conformados com este mundo, mas sereis transformados pela renovação do vosso entendimento.',
+        text: 'E não sede conformados com este mundo, mas sede transformados pela renovação do vosso entendimento, para que experimenteis qual seja a boa, agradável, e perfeita vontade de Deus.',
         action: 'Complete a frase: "Quando [gatilho], eu costumo [rotina], porque no fundo busco [necessidade]."',
       },
       {
@@ -103,7 +103,7 @@ export const TOPICS: Topic[] = [
           'Se alguém desrespeita seus limites, isso é um sinal importante, e não um detalhe. Você pode dizer não e continuar sendo amado(a).',
         ],
         ref: 'Provérbios 4:23',
-        text: 'Sobre tudo o que se deve guardar, guarda o teu coração, porque dele procedem as saídas da vida.',
+        text: 'Sobre tudo o que se deve guardar, guarda o teu coração, porque dele procedem as fontes da vida.',
         action: 'Defina com clareza um limite e converse com uma pessoa de confiança para ela te apoiar.',
       },
       {
