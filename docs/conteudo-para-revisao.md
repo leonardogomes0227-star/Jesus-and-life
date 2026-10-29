@@ -1013,6 +1013,82 @@ Você não precisa passar por isso sozinho(a).
 **Para praticar:** Se você sente que precisa, converse hoje com alguém de confiança sobre buscar apoio profissional.
 - [ ] OK / ajustar / retirar
 
+### Vergonha, culpa e recomeço
+
+
+#### Culpa e vergonha não são a mesma coisa
+
+_Uma diz "fiz algo errado". A outra diz "eu sou errado"._
+Psicólogos costumam separar duas coisas que parecem iguais. A culpa diz: "eu fiz algo errado". A vergonha diz: "eu sou errado". A primeira pode levar à mudança. A segunda leva a se esconder.
+Quando a vergonha manda, a pessoa evita falar, evita orar, evita gente. Isso costuma piorar o hábito, porque o segredo pesa, e o peso pede alívio rápido.
+A Bíblia faz a mesma distinção. Ela chama o erro de erro, mas não chama você de erro. Em Cristo, a sentença sobre quem você é já foi dada: filho amado.
+> Portanto, agora, nenhuma condenação há para os que estão em Cristo Jesus. (Romanos 8:1)
+**Para praticar:** Quando vier um pensamento de condenação, escreva duas frases separadas: "O que eu fiz:" e "Quem eu sou em Cristo:".
+- [ ] OK / ajustar / retirar
+
+#### Esconder aumenta o peso
+
+_Desde o começo, a vergonha manda se esconder._
+Depois de errar, Adão e Eva se esconderam de Deus (Gênesis 3). A reação é antiga: quando sentimos vergonha, queremos sumir.
+Mas o segredo tem custo. Ele exige vigilância o tempo todo, isola e faz cada falha parecer maior do que é. Contar a uma pessoa segura costuma aliviar mais do que se espera.
+Contar não é expor tudo. Pode ser uma frase: "tenho tido dias difíceis e queria a sua oração".
+> O que encobre as suas transgressões nunca prosperará; mas o que as confessa e deixa alcançará misericórdia. (Provérbios 28:13)
+**Para praticar:** Escolha uma pessoa segura e diga uma frase verdadeira sobre a sua semana. Só uma.
+- [ ] OK / ajustar / retirar
+
+#### Confessar não é se humilhar
+
+_Na Bíblia, confessar é dizer a verdade para ser curado._
+No Novo Testamento, confessar significa, literalmente, "dizer o mesmo que". É concordar com Deus sobre a verdade, inclusive sobre o erro, sem teatro e sem exagero.
+Tiago liga a confissão à cura: "para que sareis". Não é castigo, é tratamento.
+O objetivo é sair do segredo e entrar no cuidado. Um bom confidente ouve, ora e pergunta como pode ajudar, sem sermão.
+> Se confessarmos os nossos pecados, ele é fiel e justo para nos perdoar os pecados, e nos purificar de toda a injustiça. (1 João 1:9)
+**Para praticar:** No próximo encontro com o seu parceiro, faça a pergunta honesta: "Houve algo que eu não te contei?"
+- [ ] OK / ajustar / retirar
+
+#### Voltar depois de cair
+
+_Os primeiros minutos depois de uma queda decidem muito._
+A psicologia descreve um padrão: depois de uma falha, a pessoa pensa "já que caí, não adianta mais" e se entrega por mais tempo. É o efeito do "já que".
+O antídoto é tratar a queda como informação, e não como veredito. O que veio antes? O que posso mudar? E então fazer, rápido, a próxima coisa certa.
+Nas primeiras 24 horas: respire, conte a alguém, faça o momento da Noite, durma e retome o Momento com Deus na manhã seguinte.
+> Porque sete vezes cairá o justo, e se levantará. (Provérbios 24:16)
+**Para praticar:** Escreva agora a sua regra para depois de uma queda: os três primeiros passos que você vai dar.
+- [ ] OK / ajustar / retirar
+
+### Telas, sono e rotina
+
+
+#### O celular na cama
+
+_Muita luta começa na cama, à noite, sozinho._
+Boa parte das quedas acontece à noite, sozinho, com o celular na mão. Cansaço, silêncio e acesso fácil formam o pior cenário.
+Pesquisas sobre sono indicam que usar telas na cama atrasa o sono e piora o descanso, e quem dorme mal tem menos controle sobre os impulsos no dia seguinte.
+Mudar o ambiente costuma ser mais eficaz do que depender de força de vontade: o carregador fora do quarto resolve na hora o que a força de vontade não resolve às 23h.
+> Pois assim dá ele aos seus amados o sono. (Salmos 127:2)
+**Para praticar:** Hoje à noite, deixe o carregador fora do quarto e use um despertador comum.
+- [ ] OK / ajustar / retirar
+
+#### Os primeiros 10 minutos do dia
+
+_Como você começa o dia pesa mais do que parece._
+Pegar o celular ao acordar entrega os primeiros minutos do dia ao que os outros querem de você: mensagens, notícias, comparação.
+Jesus, mesmo com a agenda cheia, separava um tempo cedo para estar com o Pai.
+Dez minutos sem tela, com um copo de água, respiração e uma frase de oração, mudam o tom do resto do dia.
+> E levantando-se de manhã, muito cedo, fazendo ainda escuro, saiu, e foi para um lugar deserto, e ali orava. (Marcos 1:35)
+**Para praticar:** Amanhã, não abra o celular nos primeiros 10 minutos. Faça o Momento com Deus primeiro.
+- [ ] OK / ajustar / retirar
+
+#### Cansado, com fome ou sozinho?
+
+_Antes de lutar contra a vontade, descubra o que o corpo está pedindo._
+Muita vontade que parece ser "de outra coisa" é cansaço, fome, raiva ou solidão pedindo atenção. Há uma sigla em inglês, HALT, que ajuda a lembrar essas quatro perguntas.
+Antes de decidir qualquer coisa, pergunte: estou com fome? com raiva? sozinho? cansado? Resolver isso primeiro costuma baixar a intensidade da vontade.
+É o que Jesus faz com os cansados: não cobra, convida ao descanso.
+> Vinde a mim, todos os que estais cansados e oprimidos, e eu vos aliviarei. (Mateus 11:28)
+**Para praticar:** Na próxima vez que a vontade vier, pare e pergunte: fome, raiva, solidão ou cansaço? Resolva essa necessidade primeiro.
+- [ ] OK / ajustar / retirar
+
 ## 4. Momento com Deus (manhã)
 
 
