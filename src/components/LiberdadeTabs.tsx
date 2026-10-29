@@ -2,6 +2,7 @@ import { Link, useLocation } from 'react-router-dom'
 
 const ITEMS = [
   { to: '/trilha', label: 'Trilha', match: ['/trilha'] },
+  { to: '/plano', label: 'Plano', match: ['/plano'] },
   { to: '/jornada', label: 'Jornada', match: ['/jornada'] },
   { to: '/temas', label: 'Aprender', match: ['/temas'] },
   { to: '/queda', label: 'Recomeçar', match: ['/queda'] },

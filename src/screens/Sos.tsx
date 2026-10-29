@@ -52,6 +52,8 @@ export default function Sos() {
   const partnerOk = !!normalizePhone(state.partner.phone)
   const waves = state.sos.filter((s) => s.outcome === 'passed').length
   const lastPlan = [...state.slips].reverse().find((s) => s.plan)?.plan
+  const rules = state.plan?.rules ?? []
+  const myRules = (trigger ? rules.filter((r) => r.trigger === trigger) : []).concat(rules.filter((r) => r.trigger !== trigger)).slice(0, 3)
 
   const counts = new Map<string, number>()
   state.sos.forEach((e) => e.helped?.forEach((h) => counts.set(h, (counts.get(h) ?? 0) + 1)))
@@ -143,6 +145,12 @@ export default function Sos() {
               <div className="flex flex-wrap gap-2">
                 {TRIGGERS.map((t) => <button key={t} aria-pressed={trigger === t} onClick={() => setTrigger(trigger === t ? '' : t)} className="chip">{t}</button>)}
               </div>
+              {trigger && rules.some((r) => r.trigger === trigger) && (
+                <div className="pop rounded-3xl border border-sun/50 p-5">
+                  <p className="text-sm font-semibold text-sun">Pelo seu plano</p>
+                  <p className="mt-1 text-lg leading-snug">{rules.find((r) => r.trigger === trigger)!.then}</p>
+                </div>
+              )}
             </section>
           )}
           {step === 'alguem' && (
@@ -168,7 +176,16 @@ export default function Sos() {
               <p className="font-display text-7xl font-semibold tabular-nums text-sun">{secs === 0 ? '0:00' : `${mm}:${ss}`}</p>
               <p className="text-muted">{secs === 0 ? 'Os 10 minutos passaram. O pior já ficou para trás.' : 'Fique mais um pouco. A parte mais difícil costuma passar nos primeiros minutos.'}</p>
               {state.profile?.why && <div className="rounded-3xl border border-line bg-surface p-5"><p className="text-sm font-semibold text-sun">O seu porquê</p><p className="mt-1 font-display text-xl leading-snug">“{state.profile.why}”</p></div>}
-              {lastPlan && <div className="rounded-3xl border border-sun/50 p-5"><p className="text-sm font-semibold text-sun">O seu plano</p><p className="mt-1">{lastPlan}</p></div>}
+              {myRules.length > 0 ? (
+                <div className="rounded-3xl border border-sun/50 p-5">
+                  <p className="text-sm font-semibold text-sun">O seu plano</p>
+                  <ul className="mt-2 space-y-2">{myRules.map((r) => <li key={r.id} className="leading-snug"><span className="text-muted">Se {r.when.charAt(0).toLowerCase() + r.when.slice(1)}:</span> {r.then}</li>)}</ul>
+                </div>
+              ) : lastPlan ? (
+                <div className="rounded-3xl border border-sun/50 p-5"><p className="text-sm font-semibold text-sun">O seu plano</p><p className="mt-1">{lastPlan}</p></div>
+              ) : (
+                <Link to="/plano" className="block rounded-3xl border border-line p-5 text-sm text-muted underline">Você ainda não tem um plano. Monte o seu depois que a onda passar.</Link>
+              )}
               <blockquote className="rounded-3xl border border-line bg-surface p-5">
                 <p className="font-display text-lg leading-snug">“{SOS_VERSE.text}”</p>
                 <p className="mt-2 text-sm text-muted">{SOS_VERSE.ref} · ACF</p>

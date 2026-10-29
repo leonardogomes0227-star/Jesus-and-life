@@ -53,6 +53,7 @@ export interface AppState {
   marks: Record<string, BibleMark> // chave: livro.capítulo.versículo
   lastRead: { book: string; chapter: number } | null
   moments: Moment[] // momentos com Deus concluídos
+  plan: MyPlan | null // plano pessoal de prevenção
   readChapters: string[] // "livro.capítulo" marcados como lidos
   plans: Record<string, PlanProgress>
   prayers: Prayer[]
@@ -98,4 +99,15 @@ export interface Moment {
   ref: string
   need: string
   kind?: 'manha' | 'pausa' | 'noite' // ausente em registros antigos = manhã
+}
+
+export interface PlanRule { id: string; trigger: string; when: string; then: string }
+export interface PlanEnv { id: string; label: string; done: boolean }
+export interface MyPlan {
+  createdAt: string
+  updatedAt: string // última revisão
+  triggers: string[]
+  times: string[] // faixas do dia mais difíceis
+  rules: PlanRule[]
+  env: PlanEnv[]
 }
