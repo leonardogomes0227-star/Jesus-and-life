@@ -15,8 +15,7 @@ export function TopicList() {
       <div className="space-y-3">
         {TOPICS.map((t) => (
           <Link key={t.id} to={`/temas/${t.id}`} className="card fade-up flex items-center gap-4 active:scale-[0.99]">
-            <span className="flex h-14 w-14 shrink-0 items-center justify-center rounded-2xl bg-bg text-3xl" aria-hidden>{t.emoji}</span>
-            <span>
+                        <span>
               <span className="block font-display text-xl font-bold">{t.title}</span>
               <span className="block text-sm text-muted">{t.blurb}</span>
               <span className="mt-1 block text-xs font-semibold text-accent">{t.articles.length} leituras</span>
@@ -40,7 +39,6 @@ export function TopicPage() {
     <main className="space-y-5">
       <header className="fade-up">
         <Link to="/temas" className="flex min-h-[48px] items-center text-sm font-semibold text-accent">← Aprender</Link>
-        <div className="text-4xl" aria-hidden>{topic.emoji}</div>
         <h1 className="font-display text-3xl font-bold">{topic.title}</h1>
         <p className="mt-1 text-muted">{topic.blurb}</p>
       </header>
@@ -67,7 +65,7 @@ export function TopicPage() {
                     <p className="text-xs font-bold uppercase tracking-wide text-sun">Para praticar</p>
                     <p className="mt-1">{a.action}</p>
                   </div>
-                  {supported && <button className="btn-ghost !min-h-[44px] text-sm" onClick={() => read(`${a.title}. ${a.body.join(' ')} ${a.ref}. ${a.text}`)}>{speaking ? '⏹ Parar' : '🔊 Ouvir'}</button>}
+                  {supported && <button className="btn-ghost !min-h-[44px] text-sm" onClick={() => read(`${a.title}. ${a.body.join(' ')} ${a.ref}. ${a.text}`)}>{speaking ? '⏹ Parar' : 'Ouvir'}</button>}
                 </div>
               )}
             </article>

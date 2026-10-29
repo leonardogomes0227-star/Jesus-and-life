@@ -9,7 +9,7 @@ export function PlanList() {
   const { state } = useStore()
   return (
     <main className="space-y-5">
-      <Link to="/ler" className="flex min-h-[48px] items-center text-sm font-semibold text-accent">← Ler</Link>
+      <Link to="/biblia" className="flex min-h-[48px] items-center text-sm font-semibold text-muted">← Bíblia</Link>
       <header>
         <h1 className="font-display text-3xl font-bold">Planos de leitura</h1>
         <p className="mt-1 text-muted">Sem prazo e sem cobrança. Se você parar, continua de onde estava.</p>

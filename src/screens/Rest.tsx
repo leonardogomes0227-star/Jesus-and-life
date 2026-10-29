@@ -5,7 +5,7 @@ import { AUDIO_SESSIONS } from '../lib/audio'
 export function RestList() {
   return (
     <main className="space-y-5">
-      <Link to="/ler" className="flex min-h-[48px] items-center text-sm font-semibold text-accent">← Ler</Link>
+      <Link to="/biblia" className="flex min-h-[48px] items-center text-sm font-semibold text-muted">← Bíblia</Link>
       <header>
         <h1 className="font-display text-3xl font-bold">Meditação e descanso</h1>
         <p className="mt-1 text-muted">Áudios guiados para desacelerar a mente, com voz do aparelho e som ambiente suave.</p>

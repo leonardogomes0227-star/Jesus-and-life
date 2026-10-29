@@ -127,18 +127,18 @@ export const PROMPTS = [
   'Qual é o passo de coragem que me espera hoje?',
 ]
 
-export interface Milestone { days: number; title: string; emoji: string; text: string }
+export interface Milestone { days: number; title: string; text: string }
 export const MILESTONES: Milestone[] = [
-  { days: 1, title: 'Primeiro passo', emoji: '🌱', text: 'Todo caminho começa com um dia. Você começou.' },
-  { days: 3, title: 'Três dias', emoji: '🌤️', text: 'Os primeiros dias são os mais difíceis. Você está atravessando.' },
-  { days: 7, title: 'Uma semana', emoji: '☀️', text: 'Sete dias. Um ciclo inteiro de manhãs novas.' },
-  { days: 14, title: 'Duas semanas', emoji: '🌅', text: 'Seu corpo e sua rotina já estão se ajustando.' },
-  { days: 21, title: 'Hábito em formação', emoji: '🌿', text: '21 dias de constância. Algo novo está criando raiz.' },
-  { days: 30, title: 'Um mês', emoji: '🌳', text: 'Um mês de liberdade construída dia após dia.' },
-  { days: 60, title: 'Dois meses', emoji: '⛰️', text: 'Você já olha para trás e vê o quanto subiu.' },
-  { days: 90, title: '90 dias', emoji: '🕊️', text: 'Noventa dias. A liberdade já tem a sua cara.' },
-  { days: 180, title: 'Meio ano', emoji: '🌄', text: 'Seis meses de graça sustentando você.' },
-  { days: 365, title: 'Um ano', emoji: '🏔️', text: 'Um ano inteiro. Gratidão por cada passo.' },
+  { days: 1, title: 'Primeiro passo', text: 'Todo caminho começa com um dia. Você começou.' },
+  { days: 3, title: 'Três dias', text: 'Os primeiros dias são os mais difíceis. Você está atravessando.' },
+  { days: 7, title: 'Uma semana', text: 'Sete dias. Um ciclo inteiro de manhãs novas.' },
+  { days: 14, title: 'Duas semanas', text: 'Seu corpo e sua rotina já estão se ajustando.' },
+  { days: 21, title: 'Hábito em formação', text: '21 dias de constância. Algo novo está criando raiz.' },
+  { days: 30, title: 'Um mês', text: 'Um mês de liberdade construída dia após dia.' },
+  { days: 60, title: 'Dois meses', text: 'Você já olha para trás e vê o quanto subiu.' },
+  { days: 90, title: '90 dias', text: 'Noventa dias. A liberdade já tem a sua cara.' },
+  { days: 180, title: 'Meio ano', text: 'Seis meses de graça sustentando você.' },
+  { days: 365, title: 'Um ano', text: 'Um ano inteiro. Gratidão por cada passo.' },
 ]
 
 export const MOOD_REPLIES: Record<number, string> = {
@@ -166,11 +166,11 @@ export const verseOfDay = (dayIndex: number) => {
 }
 
 export const MOODS = [
-  { value: 1, emoji: '😞', label: 'Pesado' },
-  { value: 2, emoji: '😕', label: 'Baixo' },
-  { value: 3, emoji: '😐', label: 'Normal' },
-  { value: 4, emoji: '🙂', label: 'Bem' },
-  { value: 5, emoji: '😄', label: 'Ótimo' },
+  { value: 1, label: 'Pesado' },
+  { value: 2, label: 'Baixo' },
+  { value: 3, label: 'Normal' },
+  { value: 4, label: 'Bem' },
+  { value: 5, label: 'Ótimo' },
 ] as const
 
 export const TRIGGERS = [
@@ -191,10 +191,10 @@ export const TRIGGERS = [
 export const PLACES = ['Quarto', 'Banheiro', 'Sala', 'Escola/Faculdade', 'Trabalho', 'Rua', 'Outro']
 
 export const SOS_ACTIONS = [
-  { id: 'agua', icon: '💧', title: 'Beba um copo de água', hint: 'Levante e vá até a cozinha. Só o movimento já ajuda.' },
-  { id: 'lugar', icon: '🚪', title: 'Mude de lugar', hint: 'Saia do quarto. Vá para onde tem gente ou ar livre.' },
-  { id: 'corpo', icon: '💪', title: 'Mexa o corpo', hint: 'Faça 20 agachamentos ou flexões, ou ande por 2 minutos.' },
-  { id: 'gente', icon: '💬', title: 'Fale com alguém', hint: 'Mande mensagem ou ligue para alguém de confiança.' },
+  { id: 'agua', title: 'Beba um copo de água', hint: 'Levante e vá até a cozinha. Só o movimento já ajuda.' },
+  { id: 'lugar', title: 'Mude de lugar', hint: 'Saia do quarto. Vá para onde tem gente ou ar livre.' },
+  { id: 'corpo', title: 'Mexa o corpo', hint: 'Faça 20 agachamentos ou flexões, ou ande por 2 minutos.' },
+  { id: 'gente', title: 'Fale com alguém', hint: 'Mande mensagem ou ligue para alguém de confiança.' },
 ]
 
 export const PARTNER_MESSAGES = [

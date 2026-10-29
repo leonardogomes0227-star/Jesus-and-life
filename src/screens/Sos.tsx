@@ -1,6 +1,5 @@
 import { useEffect, useMemo, useRef, useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
-import Confetti from '../components/Confetti'
 import { SOS_ACTIONS, SOS_VERSE } from '../lib/content'
 import { normalizePhone, waLink } from '../lib/whatsapp'
 import { useStore } from '../lib/store'
@@ -126,9 +125,7 @@ export default function Sos() {
   if (won) {
     return (
       <div data-theme="dark" className="flex min-h-screen items-center justify-center bg-bg px-6 text-ink">
-        <Confetti />
         <div className="pop max-w-sm text-center">
-          <div className="text-7xl" aria-hidden>🌊</div>
           <h1 className="mt-4 font-display text-4xl font-bold">A onda passou.</h1>
           <p className="mt-3 text-lg text-muted">Você esperou, respirou e continuou. Isso é força de verdade.{waves > 0 && ` É a sua ${waves}ª onda vencida.`}</p>
           <button className="btn-primary mt-8 w-full" onClick={() => navigate('/', { replace: true })}>Voltar para hoje</button>
@@ -177,9 +174,9 @@ export default function Sos() {
 
         <section className="space-y-3">
           <h2 className="font-display text-xl font-bold">Faça algo agora</h2>
-          {SOS_ACTIONS.map((a) => (
+          {SOS_ACTIONS.map((a, i) => (
             <button key={a.id} onClick={() => { toggle(a.id); buzz(20) }} aria-pressed={done.includes(a.id)} className={`flex min-h-[68px] w-full items-center gap-3 rounded-3xl border p-4 text-left transition active:scale-[0.99] ${done.includes(a.id) ? 'border-accent bg-accent/15' : 'border-line bg-surface'}`}>
-              <span className="text-2xl" aria-hidden>{done.includes(a.id) ? '✅' : a.icon}</span>
+              <span className={`flex h-9 w-9 shrink-0 items-center justify-center rounded-full border text-sm font-bold ${done.includes(a.id) ? 'border-accent bg-accent text-accent-ink' : 'border-line text-muted'}`} aria-hidden>{done.includes(a.id) ? '✓' : i + 1}</span>
               <span><span className="block font-semibold">{a.title}</span><span className="block text-sm text-muted">{a.hint}</span></span>
             </button>
           ))}
@@ -198,11 +195,11 @@ export default function Sos() {
 
         <section className="grid gap-3">
           {partnerOk ? (
-            <a className="btn-ghost" href={waLink(state.partner.phone, 'Oi! Estou num momento difícil agora e queria sua companhia. Pode conversar comigo um pouco?')} target="_blank" rel="noopener noreferrer">💬 Chamar {state.partner.name || 'meu parceiro'} no WhatsApp</a>
+            <a className="btn-ghost" href={waLink(state.partner.phone, 'Oi! Estou num momento difícil agora e queria sua companhia. Pode conversar comigo um pouco?')} target="_blank" rel="noopener noreferrer">Chamar {state.partner.name || 'meu parceiro'} no WhatsApp</a>
           ) : (
-            <Link className="btn-ghost" to="/parceiro">💬 Cadastrar um parceiro de confiança</Link>
+            <Link className="btn-ghost" to="/parceiro">Cadastrar um parceiro de confiança</Link>
           )}
-          <a className="btn-ghost" href="tel:188">📞 Ligar para o CVV · 188 (24h, gratuito)</a>
+          <a className="btn-ghost" href="tel:188">Ligar para o CVV · 188 (24h, gratuito)</a>
         </section>
 
         <section className="grid gap-3 pt-2">

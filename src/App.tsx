@@ -6,9 +6,9 @@ import UpdateBanner from './components/UpdateBanner'
 import PinLock from './components/PinLock'
 import Welcome from './screens/Welcome'
 import Home from './screens/Home'
-import Read from './screens/Read'
-import Devotional from './screens/Devotional'
-import Session from './screens/Session'
+import Momento from './screens/Momento'
+import Pausa from './screens/Pausa'
+import Noite from './screens/Noite'
 import { BibleHome, BookPage, Reader } from './screens/Bible'
 import { PlanList, PlanPage } from './screens/Plans'
 import Prayer from './screens/Prayer'
@@ -84,9 +84,12 @@ export default function App() {
     <Routes>
       <Route element={<Shell />}>
         <Route path="/" element={<Home />} />
-        <Route path="/ler" element={<Read />} />
-        <Route path="/devocional" element={<Devotional />} />
-        <Route path="/agora/:m" element={<Session />} />
+        <Route path="/momento" element={<Momento />} />
+        <Route path="/pausa" element={<Pausa />} />
+        <Route path="/noite" element={<Noite />} />
+        <Route path="/ler" element={<Navigate to="/biblia" replace />} />
+        <Route path="/devocional" element={<Navigate to="/momento" replace />} />
+        <Route path="/agora/:m" element={<Navigate to="/momento" replace />} />
         <Route path="/biblia" element={<BibleHome />} />
         <Route path="/biblia/:book" element={<BookPage />} />
         <Route path="/biblia/:book/:chapter" element={<Reader />} />

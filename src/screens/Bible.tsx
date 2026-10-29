@@ -86,8 +86,7 @@ export function BibleHome() {
 
   return (
     <main className="space-y-6">
-      <Link to="/ler" className="flex min-h-[48px] items-center text-sm font-semibold text-accent">← Ler</Link>
-      <h1 className="font-display text-3xl font-bold">Bíblia</h1>
+      <h1 className="font-display text-4xl font-semibold">Bíblia</h1>
 
       <section className="space-y-3">
         <form onSubmit={(e) => { e.preventDefault(); void run(q) }} className="flex gap-2" role="search">
@@ -167,6 +166,22 @@ export function BibleHome() {
                     {c.ids.map((id) => <Link key={id} to={`/biblia/${id}`} className="flex min-h-[48px] items-center rounded-xl border border-line bg-bg px-3 text-[15px] font-semibold active:scale-[0.98]">{bookById(id)!.name}</Link>)}
                   </div>
                 </details>
+              ))}
+            </div>
+          </section>
+
+          <section>
+            <h2 className="mb-3 font-display text-xl font-semibold">Para ler, orar e descansar</h2>
+            <div className="space-y-2">
+              {[
+                ['/planos', 'Planos de leitura', 'Da Bíblia em 1 ano a leituras curtas por tema.'],
+                ['/orar', 'Oração e diário', 'Pedidos, respostas, gratidão e reflexões.'],
+                ['/descanso', 'Meditação e descanso', 'Áudios guiados para desacelerar e dormir.'],
+              ].map(([to, t, s]) => (
+                <Link key={to} to={to} className="card flex items-center justify-between gap-3 !p-4 active:scale-[0.99]">
+                  <span><span className="block font-semibold">{t}</span><span className="block text-sm text-muted">{s}</span></span>
+                  <span className="text-muted" aria-hidden>→</span>
+                </Link>
               ))}
             </div>
           </section>

@@ -3,43 +3,55 @@
 @tailwind utilities;
 
 :root {
-  --bg: 245 246 248;
+  --bg: 250 249 247;
   --surface: 255 255 255;
-  --ink: 15 23 42;
-  --muted: 91 101 119;
-  --line: 226 229 234;
-  --accent: 30 58 95;
+  --ink: 28 27 26;
+  --muted: 112 108 102;
+  --line: 232 229 224;
+  --accent: 28 27 26;
   --accent-ink: 255 255 255;
-  --sun: 183 121 31;
+  --sun: 160 120 55;
   --sun-ink: 255 255 255;
+  --sand: 239 231 214;
+  --sand-ink: 40 33 20;
+  --night: 28 27 26;
+  --night-ink: 244 241 236;
   color-scheme: light;
 }
 
 @media (prefers-color-scheme: dark) {
   :root:not([data-theme='light']) {
-    --bg: 11 18 32;
-    --surface: 18 27 45;
-    --ink: 230 234 242;
-    --muted: 143 155 176;
-    --line: 31 42 64;
-    --accent: 127 168 224;
-    --accent-ink: 11 18 32;
-    --sun: 224 164 88;
-    --sun-ink: 26 18 5;
+    --bg: 18 17 16;
+    --surface: 28 27 25;
+    --ink: 240 237 232;
+    --muted: 160 155 148;
+    --line: 46 44 41;
+    --accent: 240 237 232;
+    --accent-ink: 18 17 16;
+    --sun: 201 160 98;
+    --sun-ink: 26 20 8;
+    --sand: 44 38 27;
+    --sand-ink: 240 230 210;
+    --night: 36 34 31;
+    --night-ink: 244 241 236;
     color-scheme: dark;
   }
 }
 
 [data-theme='dark'] {
-  --bg: 11 18 32;
-  --surface: 18 27 45;
-  --ink: 230 234 242;
-  --muted: 143 155 176;
-  --line: 31 42 64;
-  --accent: 127 168 224;
-  --accent-ink: 11 18 32;
-  --sun: 224 164 88;
-  --sun-ink: 26 18 5;
+  --bg: 18 17 16;
+  --surface: 28 27 25;
+  --ink: 240 237 232;
+  --muted: 160 155 148;
+  --line: 46 44 41;
+  --accent: 240 237 232;
+  --accent-ink: 18 17 16;
+  --sun: 201 160 98;
+  --sun-ink: 26 20 8;
+  --sand: 44 38 27;
+  --sand-ink: 240 230 210;
+  --night: 36 34 31;
+  --night-ink: 244 241 236;
   color-scheme: dark;
 }
 
@@ -50,7 +62,7 @@ body {
   font-family: Figtree, system-ui, sans-serif;
   -webkit-tap-highlight-color: transparent;
 }
-h1, h2, h3 { font-family: 'Bricolage Grotesque', system-ui, sans-serif; }
+h1, h2, h3 { font-family: Newsreader, Georgia, 'Times New Roman', serif; letter-spacing: -0.01em; }
 
 @layer components {
   .btn {
