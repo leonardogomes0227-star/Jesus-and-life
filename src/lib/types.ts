@@ -67,6 +67,7 @@ export interface AppState {
   moments: Moment[] // momentos com Deus concluídos
   plan: MyPlan | null // plano pessoal de prevenção
   meetings: Meeting[] // encontros semanais com o parceiro
+  reminders: Record<string, { on: boolean; time: string }> // horários dos lembretes no calendário
   readChapters: string[] // "livro.capítulo" marcados como lidos
   plans: Record<string, PlanProgress>
   prayers: Prayer[]

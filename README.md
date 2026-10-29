@@ -20,3 +20,10 @@ npm run build   # produção (dist/)
 ## Bíblia
 
 Texto ACF em `public/data-acf/<livro>.json`. Confirme a licença antes de divulgar em larga escala (ver `public/data-acf/FONTE.txt`).
+
+## Qualidade do conteúdo
+
+- `npm run verificar:versiculos` compara todas as citações bíblicas do app com o texto real da ACF (`public/data-acf/`). Com `-- --fix`, corrige as citações diferentes. Rode sempre que alterar o conteúdo.
+- `docs/conteudo-para-revisao.md` reúne todo o texto do app para revisão de um pastor e de um psicólogo (gerado por `scripts/exportar-conteudo.ts`).
+- `docs/LICENCA-ACF.md` explica a situação da licença da ACF, traz um modelo de carta de pedido de autorização e o caminho para trocar por uma versão de domínio público.
+- Lembretes: em **Ajustes → Lembretes no calendário** o usuário baixa um arquivo `.ics`; o calendário do celular faz os avisos (o app não envia notificações).

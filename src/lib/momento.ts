@@ -41,7 +41,7 @@ export const PRAYER_BY_NEED: Record<string, string> = {
 
 export const BENEDICTION = {
   ref: 'Números 6:24-26',
-  text: 'O Senhor te abençoe e te guarde; o Senhor faça resplandecer o seu rosto sobre ti, e tenha misericórdia de ti; o Senhor sobre ti levante o seu rosto, e te dê a paz.',
+  text: 'O Senhor te abençoe e te guarde; O Senhor faça resplandecer o seu rosto sobre ti, e tenha misericórdia de ti; O Senhor sobre ti levante o seu rosto e te dê a paz.',
 }
 
 export type StepId = 'chegar' | 'palavra' | 'refletir' | 'orar' | 'responder' | 'fechar'
@@ -85,7 +85,7 @@ export const NIGHT_PASSAGES: Passage[] = [
 
 export const NIGHT_BENEDICTION = {
   ref: 'Salmos 4:8',
-  text: 'Em paz me deitarei e logo dormirei; porque só tu, Senhor, me fazes habitar em segurança.',
+  text: 'Em paz também me deitarei e dormirei, porque só tu, Senhor, me fazes habitar em segurança.',
 }
 
 export type Slot = 'manha' | 'pausa' | 'noite'

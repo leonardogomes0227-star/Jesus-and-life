@@ -39,7 +39,7 @@ export const VERSES: Verse[] = [
   },
   {
     ref: 'Isaías 41:10',
-    text: 'Não temas, porque eu sou contigo; não te assombres, porque eu sou o teu Deus; eu te fortaleço, e te ajudo, e te sustento com a destra da minha justiça.',
+    text: 'Não temas, porque eu sou contigo; não te assombres, porque eu sou teu Deus; eu te fortaleço, e te ajudo, e te sustento com a destra da minha justiça.',
     reflection: 'Deus não fica à distância esperando você melhorar. Ele já está ao seu lado.',
     practice: 'Respire fundo três vezes e, a cada expiração, solte uma preocupação na presença de Deus.',
   },
@@ -69,19 +69,19 @@ export const VERSES: Verse[] = [
   },
   {
     ref: 'Provérbios 24:16',
-    text: 'Porque sete vezes cai o justo, e se levanta; mas os ímpios caem no mal.',
+    text: 'Porque sete vezes cairá o justo, e se levantará; mas os ímpios tropeçarão no mal.',
     reflection: 'Levantar de novo é o que marca o caminho. Cair não apaga o que você já construiu.',
     practice: 'Lembre de uma vez em que você se levantou e agradeça por isso.',
   },
   {
     ref: 'Salmos 94:18',
-    text: 'Quando eu disse: O meu pé resvala, a tua benignidade, Senhor, me sustentou.',
+    text: 'Quando eu disse: O meu pé vacila; a tua benignidade, Senhor, me susteve.',
     reflection: 'Mesmo no escorregão, existe uma mão que sustenta. Peça ajuda sem esperar estar perfeito.',
     practice: 'Mande uma mensagem a alguém de confiança só para dizer como foi seu dia.',
   },
   {
     ref: '2 Coríntios 12:9',
-    text: 'Então ele me disse: A minha graça te basta, porque o meu poder se aperfeiçoa na fraqueza.',
+    text: 'E disse-me: A minha graça te basta, porque o meu poder se aperfeiçoa na fraqueza. De boa vontade, pois, me gloriarei nas minhas fraquezas, para que em mim habite o poder de Cristo.',
     reflection: 'Sua fraqueza não afasta Deus. É exatamente ali que a graça dele aparece.',
     practice: 'Diga a Deus em que ponto você se sente mais fraco e peça a graça dele para esse ponto.',
   },
@@ -156,6 +156,8 @@ export const WHY_IDEAS = [
   'Cuidar da minha mente e do meu coração',
   'Ter relacionamentos mais saudáveis',
 ]
+
+export const WELCOME_VERSE = { ref: 'Lamentações 3:23', text: 'Novas são cada manhã; grande é a tua fidelidade.' }
 
 export const SOS_VERSE = VERSES[1]
 

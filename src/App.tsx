@@ -20,6 +20,7 @@ import Journey from './screens/Journey'
 import Partner from './screens/Partner'
 import Semana from './screens/Semana'
 import Settings from './screens/Settings'
+import Sobre from './screens/Sobre'
 import Trail from './screens/Trail'
 import Lesson from './screens/Lesson'
 import { TopicList, TopicPage } from './screens/Topics'
@@ -109,6 +110,7 @@ export default function App() {
         <Route path="/parceiro" element={<Partner />} />
         <Route path="/parceiro/semana" element={<Semana />} />
         <Route path="/ajustes" element={<Settings />} />
+        <Route path="/sobre" element={<Sobre />} />
         <Route path="/queda" element={<Slip />} />
       </Route>
       <Route path="/sos" element={<Sos />} />
