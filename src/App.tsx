@@ -18,6 +18,7 @@ import Sos from './screens/Sos'
 import Slip from './screens/Slip'
 import Journey from './screens/Journey'
 import Partner from './screens/Partner'
+import Semana from './screens/Semana'
 import Settings from './screens/Settings'
 import Trail from './screens/Trail'
 import Lesson from './screens/Lesson'
@@ -106,6 +107,7 @@ export default function App() {
         <Route path="/temas" element={<TopicList />} />
         <Route path="/temas/:id" element={<TopicPage />} />
         <Route path="/parceiro" element={<Partner />} />
+        <Route path="/parceiro/semana" element={<Semana />} />
         <Route path="/ajustes" element={<Settings />} />
         <Route path="/queda" element={<Slip />} />
       </Route>

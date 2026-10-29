@@ -36,6 +36,17 @@ export interface SosEvent {
 export interface Partner {
   name: string
   phone: string
+  day?: number // dia combinado do encontro semanal (0 = domingo)
+  time?: string // manhã, tarde ou noite
+  agreed?: boolean // a pessoa aceitou ser parceiro
+}
+
+export interface Meeting {
+  id: string
+  at: string
+  shared: string[] // o que a pessoa escolheu compartilhar
+  commitment: string // combinado para a semana seguinte
+  kept?: 'sim' | 'parte' | 'nao' // se o combinado foi cumprido (respondido no encontro seguinte)
 }
 
 export interface AppState {
@@ -55,6 +66,7 @@ export interface AppState {
   lastRead: { book: string; chapter: number } | null
   moments: Moment[] // momentos com Deus concluídos
   plan: MyPlan | null // plano pessoal de prevenção
+  meetings: Meeting[] // encontros semanais com o parceiro
   readChapters: string[] // "livro.capítulo" marcados como lidos
   plans: Record<string, PlanProgress>
   prayers: Prayer[]
