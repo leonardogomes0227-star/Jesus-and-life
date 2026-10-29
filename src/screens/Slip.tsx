@@ -27,6 +27,7 @@ export default function Slip() {
           <blockquote className="font-display text-lg">“{v.text}”</blockquote>
           <p className="mt-2 text-sm font-semibold text-muted">{v.ref} · ACF</p>
         </div>
+        {state.plan && plan.trim() && <Link to={`/plano?then=${encodeURIComponent(plan.trim())}${triggers[0] ? `&t=${encodeURIComponent(triggers[0])}` : ''}`} className="btn-ghost w-full">Transformar em regra do meu plano</Link>}
         <Link to="/" className="btn-primary w-full">Voltar para hoje</Link>
       </main>
     )

@@ -11,6 +11,7 @@ import Pausa from './screens/Pausa'
 import Noite from './screens/Noite'
 import { BibleHome, BookPage, Reader } from './screens/Bible'
 import { PlanList, PlanPage } from './screens/Plans'
+import Plano from './screens/Plano'
 import Prayer from './screens/Prayer'
 import { RestList, RestPlayer } from './screens/Rest'
 import Sos from './screens/Sos'
@@ -100,6 +101,7 @@ export default function App() {
         <Route path="/descanso/:id" element={<RestPlayer />} />
         <Route path="/trilha" element={<Trail />} />
         <Route path="/trilha/:n" element={<Lesson />} />
+        <Route path="/plano" element={<Plano />} />
         <Route path="/jornada" element={<Journey />} />
         <Route path="/temas" element={<TopicList />} />
         <Route path="/temas/:id" element={<TopicPage />} />
