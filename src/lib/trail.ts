@@ -310,3 +310,39 @@ const EXTRA: Lesson[] = EXTRA_DATA.map(([title, ref, text, teaching, practice], 
 export const LESSONS: Lesson[] = [...CORE, ...EXTRA]
 
 export const phaseOf = (n: number): Phase => PHASES.find((p) => n >= p.from && n <= p.to) ?? PHASES[0]
+
+export interface PhaseInfo { intro: string; focus: string; question: string }
+export const PHASE_INFO: Record<string, PhaseInfo> = {
+  a: {
+    intro: 'Antes de qualquer regra vem a pergunta de quem você é. Nesta fase, a vergonha dá lugar à identidade de filho(a) amado(a), e você aprende a cuidar de si como alguém que vale a pena.',
+    focus: 'Frases curtas de identidade, gratidão e cuidado com o corpo.',
+    question: 'O que mudou, mesmo que pouco, na forma como você enxerga a si mesmo(a)?',
+  },
+  b: {
+    intro: 'Aqui você entende como a vontade funciona: o gatilho, a busca, a pausa. Entender tira o mistério, e o mistério é o que dá força ao hábito.',
+    focus: 'Nomear gatilhos, usar a pausa e mudar o ambiente.',
+    question: 'Qual gatilho você passou a reconhecer melhor, e o que você faz diferente com ele?',
+  },
+  c: {
+    intro: 'Ninguém muda sozinho. Esta fase trata de contar a alguém, de recomeçar depois de cair e de ter um propósito maior que a luta.',
+    focus: 'Falar com o parceiro, recomeçar sem culpa e servir.',
+    question: 'Quem caminha com você agora, e o que você quer dizer a essa pessoa?',
+  },
+  d: {
+    intro: 'A mente se renova aos poucos. Aqui você guarda a Palavra, observa os pensamentos e aprende a descansar em Deus no meio da ansiedade.',
+    focus: 'Memorizar versículos, orar no ritmo da respiração, entregar preocupações.',
+    question: 'Que pensamento repetido você já consegue observar sem obedecer?',
+  },
+  e: {
+    intro: 'Os relacionamentos moldam quem você é. Esta fase fala de amizade, perdão, limites e comunidade.',
+    focus: 'Conversar sobre limites, perdoar, escolher boas companhias.',
+    question: 'Que relação precisa de uma conversa, de um limite ou de um perdão?',
+  },
+  f: {
+    intro: 'Perseverar é continuar sem pressa. Esta fase olha a caminhada longa: esperança, propósito e gratidão.',
+    focus: 'Constância nos dias comuns, gratidão e propósito.',
+    question: 'O que você agradece e o que quer continuar nos próximos meses?',
+  },
+}
+
+export const WHEN_OPTIONS = ['Agora', 'Hoje à tarde', 'Hoje à noite', 'Amanhã cedo']
