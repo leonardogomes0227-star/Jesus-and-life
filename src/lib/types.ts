@@ -82,6 +82,8 @@ export interface Prayer {
   text: string
   createdAt: string
   prayedCount: number
+  category?: string
+  prayedAt?: string[] // quando a pessoa orou por este pedido
   answeredAt?: string
   answerNote?: string
 }
