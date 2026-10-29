@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { Link } from 'react-router-dom'
+import { Link, useSearchParams } from 'react-router-dom'
 import LiberdadeTabs from '../components/LiberdadeTabs'
 import { PLACES, TRIGGERS, VERSES } from '../lib/content'
 import { toLocalInput } from '../lib/dates'
@@ -7,9 +7,10 @@ import { totalDays, useStore } from '../lib/store'
 
 export default function Slip() {
   const { state, registerSlip } = useStore()
+  const [sp] = useSearchParams()
   const [when, setWhen] = useState(toLocalInput())
   const [place, setPlace] = useState('')
-  const [triggers, setTriggers] = useState<string[]>([])
+  const [triggers, setTriggers] = useState<string[]>(sp.get('t') ? [sp.get('t')!] : [])
   const [before, setBefore] = useState('')
   const [plan, setPlan] = useState('')
   const [saved, setSaved] = useState(false)

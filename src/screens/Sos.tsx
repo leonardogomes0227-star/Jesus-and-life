@@ -1,212 +1,205 @@
-import { useEffect, useMemo, useRef, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
-import { SOS_ACTIONS, SOS_VERSE } from '../lib/content'
+import AudioPlayer from '../components/AudioPlayer'
+import Respire from '../components/Respire'
+import { AUDIO_SESSIONS } from '../lib/audio'
+import { SOS_VERSE, TRIGGERS } from '../lib/content'
 import { normalizePhone, waLink } from '../lib/whatsapp'
 import { useStore } from '../lib/store'
-import { speak, stopSpeaking } from '../lib/speech'
-import AudioPlayer from '../components/AudioPlayer'
-import { AUDIO_SESSIONS } from '../lib/audio'
 
-const PHASES = [
-  { label: 'Inspire', secs: 4, scale: 1 },
-  { label: 'Segure', secs: 4, scale: 1 },
-  { label: 'Solte devagar', secs: 6, scale: 0.5 },
-] as const
-const CYCLE = 14
+type Step = 'sair' | 'respirar' | 'corpo' | 'nomear' | 'alguem' | 'esperar'
+const STEPS: Step[] = ['sair', 'respirar', 'corpo', 'nomear', 'alguem', 'esperar']
 const TOTAL_SECS = 600
 
+const HELPED = [
+  { id: 'sair', label: 'Sair do lugar' },
+  { id: 'respirar', label: 'Respirar' },
+  { id: 'corpo', label: 'Água e mexer o corpo' },
+  { id: 'nomear', label: 'Dar nome ao que eu sentia' },
+  { id: 'alguem', label: 'Falar com alguém' },
+  { id: 'orar', label: 'Orar' },
+  { id: 'audio', label: 'O áudio' },
+  { id: 'esperar', label: 'Esperar o tempo passar' },
+]
+
 const buzz = (ms: number) => {
-  try {
-    navigator.vibrate?.(ms)
-  } catch {
-    /* sem vibração */
-  }
+  try { navigator.vibrate?.(ms) } catch { /* sem vibração */ }
 }
 
-function Breathing({ voice }: { voice: boolean }) {
-  const [phase, setPhase] = useState(0)
-  const [left, setLeft] = useState<number>(PHASES[0].secs)
-  const [cycles, setCycles] = useState(0)
-  const last = useRef(-1)
-
-  useEffect(() => {
-    const t0 = Date.now()
-    const id = setInterval(() => {
-      const e = (Date.now() - t0) / 1000
-      const m = e % CYCLE
-      const i = m < 4 ? 0 : m < 8 ? 1 : 2
-      const end = i === 0 ? 4 : i === 1 ? 8 : 14
-      setPhase(i)
-      setLeft(Math.max(1, Math.ceil(end - m)))
-      setCycles(Math.floor(e / CYCLE))
-      if (last.current !== i) {
-        last.current = i
-        buzz(i === 1 ? 15 : 30)
-        if (voice) speak(PHASES[i].label, 0.8)
-      }
-    }, 150)
-    return () => clearInterval(id)
-  }, [voice])
-
-  const p = PHASES[phase]
-  const tr = `transform ${phase === 1 ? 0 : p.secs}s ease-in-out`
-  return (
-    <div className="flex flex-col items-center">
-      <div className="relative flex h-64 w-64 items-center justify-center">
-        <div className="absolute inset-0 rounded-full bg-accent/10" style={{ transform: `scale(${p.scale})`, transition: tr }} />
-        <div className="absolute inset-4 rounded-full bg-accent/20" style={{ transform: `scale(${p.scale})`, transition: tr }} />
-        <div className="absolute inset-10 rounded-full bg-accent/35 shadow-[0_0_60px_rgb(var(--accent)/0.35)]" style={{ transform: `scale(${p.scale})`, transition: tr }} />
-        <div className="relative text-center" aria-live="polite">
-          <p className="font-display text-2xl font-bold">{p.label}</p>
-          <p className="font-display text-5xl font-bold text-accent">{left}</p>
-        </div>
-      </div>
-      <p className="text-sm text-muted">Respiração 4 · 4 · 6 {cycles > 0 && `· ${cycles} ${cycles === 1 ? 'ciclo' : 'ciclos'}`}</p>
-    </div>
-  )
-}
-
-function Countdown() {
+/** SOS: uma coisa de cada vez, do primeiro segundo até o fim da onda. Funciona sem internet. */
+export default function Sos() {
+  const { state, sosOpen, sosClose } = useStore()
+  const navigate = useNavigate()
+  const id = useRef(crypto.randomUUID())
   const end = useRef(Date.now() + TOTAL_SECS * 1000)
   const [secs, setSecs] = useState(TOTAL_SECS)
+  const [i, setI] = useState(0)
+  const [trigger, setTrigger] = useState('')
+  const [used, setUsed] = useState<string[]>([])
+  const [audio, setAudio] = useState(false)
+  const [result, setResult] = useState<'passou' | 'caiu' | null>(null)
+  const [helped, setHelped] = useState<string[]>([])
+
+  useEffect(() => { sosOpen(id.current) }, []) // eslint-disable-line react-hooks/exhaustive-deps
   useEffect(() => {
-    const id = setInterval(() => setSecs(Math.max(0, Math.ceil((end.current - Date.now()) / 1000))), 500)
-    return () => clearInterval(id)
+    const t = setInterval(() => setSecs(Math.max(0, Math.ceil((end.current - Date.now()) / 1000))), 500)
+    return () => clearInterval(t)
   }, [])
+
+  const step = STEPS[i]
   const mm = String(Math.floor(secs / 60)).padStart(2, '0')
   const ss = String(secs % 60).padStart(2, '0')
-  const pct = ((TOTAL_SECS - secs) / TOTAL_SECS) * 100
-  return (
-    <div className="card text-center">
-      <p className="label">A vontade passa em ondas. Fique mais 10 minutos.</p>
-      <p className="font-display text-5xl font-bold tabular-nums" role="timer">{secs === 0 ? 'Você conseguiu!' : `${mm}:${ss}`}</p>
-      <div className="mt-4 h-2.5 overflow-hidden rounded-full bg-bg"><div className="h-full rounded-full bg-sun transition-all" style={{ width: `${pct}%` }} /></div>
-      <p className="mt-2 text-xs text-muted">{secs === 0 ? 'A parte mais difícil já passou.' : `${Math.round(pct)}% do caminho`}</p>
-    </div>
-  )
-}
-
-const QUESTIONS = [
-  'O que eu estou sentindo de verdade agora? Cansaço, solidão, tédio, ansiedade?',
-  'O que eu realmente preciso neste momento?',
-  'Qual é a menor ação que eu posso fazer agora?',
-]
-
-const ENCOURAGE = [
-  'Isso é uma onda. Ela sobe, chega ao topo e desce.',
-  'Você não precisa decidir o resto da vida, só os próximos minutos.',
-  'Pedir ajuda é força, não fraqueza.',
-  'Deus não está decepcionado com você. Ele está aqui.',
-  'Cada minuto que você espera enfraquece a vontade.',
-]
-
-export default function Sos() {
-  const { state, logSos } = useStore()
-  const navigate = useNavigate()
-  const [done, setDone] = useState<string[]>([])
-  const [won, setWon] = useState(false)
-  const [msg, setMsg] = useState(0)
-  const [voice, setVoice] = useState(false)
-  const [audio, setAudio] = useState(false)
-  const canSpeak = typeof window !== 'undefined' && 'speechSynthesis' in window
   const partnerOk = !!normalizePhone(state.partner.phone)
   const waves = state.sos.filter((s) => s.outcome === 'passed').length
-  const lastPlan = useMemo(() => [...state.slips].reverse().find((s) => s.plan)?.plan, [state.slips])
-  const toggle = (id: string) => setDone((d) => (d.includes(id) ? d.filter((x) => x !== id) : [...d, id]))
+  const lastPlan = [...state.slips].reverse().find((s) => s.plan)?.plan
 
-  useEffect(() => {
-    const id = setInterval(() => setMsg((m) => (m + 1) % ENCOURAGE.length), 9000)
-    return () => {
-      clearInterval(id)
-      stopSpeaking()
-    }
-  }, [])
+  const counts = new Map<string, number>()
+  state.sos.forEach((e) => e.helped?.forEach((h) => counts.set(h, (counts.get(h) ?? 0) + 1)))
+  const top = [...counts.entries()].sort((a, b) => b[1] - a[1]).slice(0, 2).map(([k]) => HELPED.find((h) => h.id === k)?.label.toLowerCase()).filter(Boolean)
 
-  if (won) {
+  const mark = (k: string) => setUsed((u) => (u.includes(k) ? u : [...u, k]))
+  const go = (k?: string) => { if (k) mark(k); buzz(20); setI((n) => Math.min(STEPS.length - 1, n + 1)) }
+  const toStep = (s: Step) => setI(STEPS.indexOf(s))
+  /** O passo conta como "ajudou" se a pessoa o cumpriu (no passo de nomear, só se escolheu algo). */
+  const next = () => go(step === 'sair' || step === 'respirar' || step === 'corpo' || (step === 'nomear' && trigger) ? step : undefined)
+
+  const close = (outcome: 'passed' | 'slipped') => sosClose(id.current, outcome, { trigger: trigger || undefined, helped: outcome === 'passed' ? helped : used })
+
+  /* ---------- Finais ---------- */
+  if (result === 'passou') {
     return (
-      <div data-theme="dark" className="flex min-h-screen items-center justify-center bg-bg px-6 text-ink">
-        <div className="pop max-w-sm text-center">
-          <h1 className="mt-4 font-display text-4xl font-bold">A onda passou.</h1>
-          <p className="mt-3 text-lg text-muted">Você esperou, respirou e continuou. Isso é força de verdade.{waves > 0 && ` É a sua ${waves}ª onda vencida.`}</p>
-          <button className="btn-primary mt-8 w-full" onClick={() => navigate('/', { replace: true })}>Voltar para hoje</button>
-        </div>
+      <div data-theme="dark" className="min-h-screen bg-bg text-ink">
+        <main className="mx-auto max-w-[520px] space-y-6 px-5 py-14">
+          <h1 className="font-display text-5xl font-semibold leading-tight">Você atravessou.</h1>
+          <p className="text-lg leading-relaxed text-muted">A vontade subiu, chegou ao topo e desceu. Você esperou, e isso é força de verdade.{waves + 1 > 1 && ` Esta foi a sua ${waves + 1}ª onda vencida.`}</p>
+          <section>
+            <h2 className="font-display text-xl font-semibold">O que mais ajudou?</h2>
+            <p className="mb-3 mt-1 text-sm text-muted">Marque o que funcionou. Na próxima vez, o SOS lembra você disso.</p>
+            <div className="flex flex-wrap gap-2">
+              {HELPED.map((h) => <button key={h.id} aria-pressed={helped.includes(h.id)} onClick={() => setHelped((l) => (l.includes(h.id) ? l.filter((x) => x !== h.id) : [...l, h.id]))} className="chip">{h.label}</button>)}
+            </div>
+          </section>
+          <button className="btn-primary w-full" onClick={() => { close('passed'); navigate('/', { replace: true }) }}>Guardar e voltar</button>
+        </main>
       </div>
     )
   }
 
+  if (result === 'caiu') {
+    return (
+      <div data-theme="dark" className="min-h-screen bg-bg text-ink">
+        <main className="mx-auto max-w-[520px] space-y-6 px-5 py-14">
+          <h1 className="font-display text-5xl font-semibold leading-tight">Tudo bem.</h1>
+          <p className="text-lg leading-relaxed text-muted">Uma queda não apaga o que você construiu, e não diz quem você é. Respire. O que importa agora é o próximo passo.</p>
+          <blockquote className="rounded-3xl border border-line bg-surface p-6">
+            <p className="font-display text-xl leading-snug">“Porque sete vezes cai o justo, e se levanta.”</p>
+            <p className="mt-2 text-sm text-muted">Provérbios 24:16 · ACF</p>
+          </blockquote>
+          <div className="grid gap-3">
+            <button className="btn-primary w-full" onClick={() => { close('slipped'); navigate(`/queda${trigger ? `?t=${encodeURIComponent(trigger)}` : ''}`, { replace: true }) }}>Registrar o que aconteceu</button>
+            <button className="btn-ghost w-full" onClick={() => setResult(null)}>Respirar mais um pouco</button>
+            <button className="min-h-[48px] text-sm font-semibold text-muted underline" onClick={() => { close('slipped'); navigate('/', { replace: true }) }}>Agora não</button>
+          </div>
+        </main>
+      </div>
+    )
+  }
+
+  /* ---------- Passos ---------- */
   return (
-    <div data-theme="dark" className="min-h-screen bg-[radial-gradient(ellipse_at_top,rgb(var(--accent)/0.18),transparent_60%)] bg-bg text-ink">
-      <main className="mx-auto w-full max-w-[520px] space-y-5 px-5 pb-12 pt-[max(1.25rem,env(safe-area-inset-top))] fade-up">
-        <div className="flex items-center justify-between">
-          <h1 className="font-display text-2xl font-bold">Você não está sozinho(a)</h1>
+    <div data-theme="dark" className="min-h-screen bg-bg text-ink">
+      <main className="mx-auto flex min-h-screen max-w-[520px] flex-col px-5 pb-8 pt-[max(1rem,env(safe-area-inset-top))]">
+        <header className="flex items-center justify-between">
+          <p className="text-sm font-semibold text-muted" role="timer" aria-label="Tempo da onda">Onda · {secs === 0 ? '10 min' : `${mm}:${ss}`}</p>
           <Link to="/" aria-label="Fechar" className="flex h-12 w-12 items-center justify-center rounded-full border border-line text-xl">×</Link>
-        </div>
-        <p key={msg} className="fade-up min-h-[3.5rem] text-lg text-muted">{ENCOURAGE[msg]}</p>
+        </header>
+        <div className="mt-3 flex gap-1.5" aria-hidden>{STEPS.map((_, k) => <span key={k} className={`h-1 flex-1 rounded-full ${k <= i ? 'bg-sun' : 'bg-line'}`} />)}</div>
 
-        <Breathing voice={voice} />
-        {canSpeak && (
-          <button className="btn-ghost w-full text-sm" aria-pressed={voice} onClick={() => { setVoice((v) => !v); stopSpeaking() }}>{voice ? 'Voz da respiração: ligada' : 'Ligar voz da respiração'}</button>
-        )}
-        <Countdown />
-
-        {audio ? (
-          <AudioPlayer session={AUDIO_SESSIONS[0]} onClose={() => setAudio(false)} />
-        ) : (
-          <button className="btn-ghost w-full" onClick={() => setAudio(true)}>Ouvir o áudio de 3 minutos para quebrar o ciclo</button>
-        )}
-
-        <section className="card space-y-2">
-          <h2 className="font-display text-xl font-bold">Pergunte-se</h2>
-          <ol className="list-decimal space-y-2 pl-5 text-[15px]">{QUESTIONS.map((q) => <li key={q}>{q}</li>)}</ol>
-        </section>
-
-        {(state.profile?.why || waves > 0) && (
-          <section className="card space-y-3">
-            {state.profile?.why && (
-              <div>
-                <p className="text-xs font-bold uppercase tracking-wide text-sun">Lembre do seu porquê</p>
-                <p className="mt-1 font-display text-xl leading-snug">“{state.profile.why}”</p>
+        <div key={step} className="fade-up flex flex-1 flex-col justify-center py-8">
+          {step === 'sair' && (
+            <section className="space-y-5">
+              <h1 className="font-display text-5xl font-semibold leading-tight">Levante e saia deste lugar.</h1>
+              <p className="text-lg leading-relaxed text-muted">Vá para um cômodo com gente ou para o ar livre. Mudar de lugar quebra o ciclo mais rápido do que qualquer pensamento.</p>
+              {top.length > 0 && <p className="rounded-2xl border border-line bg-surface p-4 text-sm">Da última vez, o que mais ajudou você: <strong>{top.join(' e ')}</strong>.</p>}
+            </section>
+          )}
+          {step === 'respirar' && (
+            <section className="space-y-4 text-center">
+              <h1 className="font-display text-4xl font-semibold">Respire comigo.</h1>
+              <Respire />
+              <p className="text-muted">Faça pelo menos três respirações completas.</p>
+            </section>
+          )}
+          {step === 'corpo' && (
+            <section className="space-y-5">
+              <h1 className="font-display text-5xl font-semibold leading-tight">Beba água e mexa o corpo.</h1>
+              <p className="text-lg leading-relaxed text-muted">Um copo de água, depois um minuto de movimento: agachamentos, flexões ou uma caminhada rápida pela casa. O corpo em movimento tira a mente do automático.</p>
+            </section>
+          )}
+          {step === 'nomear' && (
+            <section className="space-y-5">
+              <h1 className="font-display text-4xl font-semibold leading-tight">O que você está sentindo de verdade?</h1>
+              <p className="text-muted">Dar nome ao que sente já tira força da vontade. Escolha o que mais se parece com agora.</p>
+              <div className="flex flex-wrap gap-2">
+                {TRIGGERS.map((t) => <button key={t} aria-pressed={trigger === t} onClick={() => setTrigger(trigger === t ? '' : t)} className="chip">{t}</button>)}
               </div>
-            )}
-            {waves > 0 && <p className="text-sm text-muted">Você já passou por <strong className="text-ink">{waves}</strong> {waves === 1 ? 'onda' : 'ondas'} antes. Dá para passar por esta também.</p>}
-          </section>
-        )}
-
-        <section className="space-y-3">
-          <h2 className="font-display text-xl font-bold">Faça algo agora</h2>
-          {SOS_ACTIONS.map((a, i) => (
-            <button key={a.id} onClick={() => { toggle(a.id); buzz(20) }} aria-pressed={done.includes(a.id)} className={`flex min-h-[68px] w-full items-center gap-3 rounded-3xl border p-4 text-left transition active:scale-[0.99] ${done.includes(a.id) ? 'border-accent bg-accent/15' : 'border-line bg-surface'}`}>
-              <span className={`flex h-9 w-9 shrink-0 items-center justify-center rounded-full border text-sm font-bold ${done.includes(a.id) ? 'border-accent bg-accent text-accent-ink' : 'border-line text-muted'}`} aria-hidden>{done.includes(a.id) ? '✓' : i + 1}</span>
-              <span><span className="block font-semibold">{a.title}</span><span className="block text-sm text-muted">{a.hint}</span></span>
-            </button>
-          ))}
-          {lastPlan && (
-            <div className="rounded-3xl border border-sun/50 bg-sun/10 p-4">
-              <p className="text-xs font-bold uppercase tracking-wide text-sun">Seu plano</p>
-              <p className="mt-1">{lastPlan}</p>
-            </div>
+            </section>
           )}
-        </section>
+          {step === 'alguem' && (
+            <section className="space-y-5">
+              <h1 className="font-display text-4xl font-semibold leading-tight">Você não precisa passar por isso sozinho(a).</h1>
+              <div className="grid gap-3">
+                {partnerOk ? (
+                  <a className="btn-ghost" onClick={() => mark('alguem')} href={waLink(state.partner.phone, 'Oi! Estou num momento difícil agora e queria sua companhia. Pode conversar comigo um pouco?')} target="_blank" rel="noopener noreferrer">Chamar {state.partner.name || 'meu parceiro'} no WhatsApp</a>
+                ) : (
+                  <Link className="btn-ghost" to="/parceiro">Cadastrar um parceiro de confiança</Link>
+                )}
+                <a className="btn-ghost" onClick={() => mark('alguem')} href="tel:188">Ligar para o CVV, 188 (24h, gratuito)</a>
+              </div>
+              <div className="rounded-3xl border border-line bg-surface p-5">
+                <p className="font-display text-xl italic leading-relaxed">Senhor, estou aqui e preciso de ti agora. Fica comigo nos próximos minutos. Amém.</p>
+                <button className="mt-3 min-h-[44px] text-sm font-semibold underline" onClick={() => mark('orar')}>{used.includes('orar') ? 'Orei' : 'Fiz esta oração'}</button>
+              </div>
+            </section>
+          )}
+          {step === 'esperar' && (
+            <section className="space-y-5">
+              <h1 className="font-display text-4xl font-semibold leading-tight">A onda sobe, chega ao topo e desce.</h1>
+              <p className="font-display text-7xl font-semibold tabular-nums text-sun">{secs === 0 ? '0:00' : `${mm}:${ss}`}</p>
+              <p className="text-muted">{secs === 0 ? 'Os 10 minutos passaram. O pior já ficou para trás.' : 'Fique mais um pouco. A parte mais difícil costuma passar nos primeiros minutos.'}</p>
+              {state.profile?.why && <div className="rounded-3xl border border-line bg-surface p-5"><p className="text-sm font-semibold text-sun">O seu porquê</p><p className="mt-1 font-display text-xl leading-snug">“{state.profile.why}”</p></div>}
+              {lastPlan && <div className="rounded-3xl border border-sun/50 p-5"><p className="text-sm font-semibold text-sun">O seu plano</p><p className="mt-1">{lastPlan}</p></div>}
+              <blockquote className="rounded-3xl border border-line bg-surface p-5">
+                <p className="font-display text-lg leading-snug">“{SOS_VERSE.text}”</p>
+                <p className="mt-2 text-sm text-muted">{SOS_VERSE.ref} · ACF</p>
+              </blockquote>
+              {audio ? <AudioPlayer session={AUDIO_SESSIONS[0]} onClose={() => setAudio(false)} /> : <button className="btn-ghost w-full" onClick={() => { setAudio(true); mark('audio') }}>Ouvir o áudio de 3 minutos</button>}
+            </section>
+          )}
+        </div>
 
-        <section className="card">
-          <blockquote className="font-display text-lg leading-snug">“{SOS_VERSE.text}”</blockquote>
-          <p className="mt-2 text-sm font-semibold text-muted">{SOS_VERSE.ref} · ACF</p>
-        </section>
-
-        <section className="grid gap-3">
-          {partnerOk ? (
-            <a className="btn-ghost" href={waLink(state.partner.phone, 'Oi! Estou num momento difícil agora e queria sua companhia. Pode conversar comigo um pouco?')} target="_blank" rel="noopener noreferrer">Chamar {state.partner.name || 'meu parceiro'} no WhatsApp</a>
+        <div className="space-y-3">
+          {step === 'esperar' ? (
+            <>
+              <button className="btn-primary w-full" onClick={() => { setHelped(Array.from(new Set([...used, 'esperar']))); setResult('passou') }}>A onda passou</button>
+              <button className="btn-ghost w-full" onClick={() => setResult('caiu')}>Não segurei desta vez</button>
+            </>
           ) : (
-            <Link className="btn-ghost" to="/parceiro">Cadastrar um parceiro de confiança</Link>
+            <>
+              <button className="btn-primary w-full" onClick={next}>
+                {step === 'sair' ? 'Já saí' : step === 'respirar' ? 'Continuar' : step === 'corpo' ? 'Feito' : step === 'nomear' ? (trigger ? 'Continuar' : 'Pular') : 'Continuar'}
+              </button>
+              {step === 'sair' && <button className="btn-ghost w-full" onClick={() => go()}>Não consigo agora</button>}
+              {step !== 'alguem' && <button className="min-h-[48px] w-full text-sm font-semibold underline" onClick={() => toStep('alguem')}>Preciso falar com alguém agora</button>}
+            </>
           )}
-          <a className="btn-ghost" href="tel:188">Ligar para o CVV · 188 (24h, gratuito)</a>
-        </section>
-
-        <section className="grid gap-3 pt-2">
-          <button className="btn-primary w-full" onClick={() => { logSos('passed'); buzz(80); setWon(true) }}>A onda passou</button>
-          <button className="btn-ghost w-full" onClick={() => { logSos('slipped'); navigate('/queda', { replace: true }) }}>Não segurei desta vez</button>
-          <p className="text-center text-sm text-muted">Nas duas opções, você continua sendo amado(a) e pode recomeçar.</p>
-        </section>
+          {step !== 'esperar' && (
+            <p className="flex justify-center gap-4 pt-1 text-xs text-muted">
+              <button className="min-h-[44px] underline" onClick={() => { setHelped(used); setResult('passou') }}>A onda passou</button>
+              <button className="min-h-[44px] underline" onClick={() => setResult('caiu')}>Não segurei</button>
+            </p>
+          )}
+        </div>
       </main>
     </div>
   )
