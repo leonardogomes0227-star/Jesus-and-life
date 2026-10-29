@@ -50,6 +50,7 @@ export interface AppState {
   celebrated: number[] // conquistas já comemoradas
   trailDone: number[] // lições da trilha concluídas (ritmo próprio, sem expirar)
   trailNotes: Record<string, string> // anotações por lição
+  trailPractice: Record<string, { when?: string; result?: 'sim' | 'parte' | 'nao' }> // prática de cada lição e como foi
   marks: Record<string, BibleMark> // chave: livro.capítulo.versículo
   lastRead: { book: string; chapter: number } | null
   moments: Moment[] // momentos com Deus concluídos

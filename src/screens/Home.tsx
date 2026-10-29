@@ -140,7 +140,7 @@ export default function Home() {
       <nav aria-label="Mais" className="-mt-2 divide-y divide-line border-y border-line">
         {[
           { to: lastBook ? `/biblia/${state.lastRead!.book}/${state.lastRead!.chapter}` : '/biblia', t: 'Bíblia', s: lastBook ? `Continuar em ${lastBook.name} ${state.lastRead!.chapter}` : 'Ler, buscar e marcar' },
-          { to: lesson ? `/trilha/${lessonN}` : '/trilha', t: 'Trilha de liberdade', s: lesson ? `Dia ${lessonN}: ${lesson.title}` : 'Ver a trilha' },
+          { to: lesson ? `/trilha/${lessonN}` : '/trilha', t: 'Trilha de liberdade', s: lesson ? (lessonN > 1 && state.trailDone.includes(lessonN - 1) && !state.trailPractice[String(lessonN - 1)]?.result ? `Conte como foi a prática de ontem · dia ${lessonN}` : `Dia ${lessonN}: ${lesson.title}`) : 'Ver a trilha' },
           { to: '/plano', t: 'Meu plano', s: state.plan ? `${state.plan.rules.length} ${state.plan.rules.length === 1 ? 'regra' : 'regras'} para os dias difíceis` : 'Monte o seu plano em 5 minutos' },
           { to: '/orar', t: 'Oração e diário', s: 'Pedidos, respostas e anotações' },
           { to: '/parceiro', t: 'Parceiro', s: state.partner.name ? `Falar com ${state.partner.name}` : 'Alguém de confiança para caminhar junto' },
