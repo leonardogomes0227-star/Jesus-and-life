@@ -26,8 +26,11 @@ export interface Slip {
 }
 
 export interface SosEvent {
+  id?: string
   at: string
-  outcome: 'passed' | 'slipped'
+  outcome: 'opened' | 'passed' | 'slipped'
+  trigger?: string // o que a pessoa nomeou que sentia
+  helped?: string[] // o que ajudou, marcado ao final
 }
 
 export interface Partner {

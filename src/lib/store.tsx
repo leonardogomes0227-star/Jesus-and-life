@@ -88,7 +88,8 @@ interface Store {
   setLastRead: (book: string, chapter: number) => void
   togglePlanDay: (planId: string, day: number) => void
   saveCheckin: (c: { mood: 1 | 2 | 3 | 4 | 5; triggers: string[]; note: string }) => void
-  logSos: (outcome: 'passed' | 'slipped') => void
+  sosOpen: (id: string) => void
+  sosClose: (id: string, outcome: 'passed' | 'slipped', extra?: { trigger?: string; helped?: string[] }) => void
   registerSlip: (s: Omit<Slip, 'id' | 'streakDays'>) => void
   replaceAll: (s: AppState) => void
   wipe: () => void
@@ -156,8 +157,10 @@ export function StoreProvider({ children }: { children: ReactNode }) {
           const rest = s.checkins.filter((x) => x.date !== date)
           return { ...s, checkins: [...rest, { ...c, date, at: new Date().toISOString() }] }
         }),
-      logSos: (outcome) =>
-        setState((s) => ({ ...s, sos: [...s.sos, { at: new Date().toISOString(), outcome }] })),
+      sosOpen: (id) =>
+        setState((s) => (s.sos.some((e) => e.id === id) ? s : { ...s, sos: [...s.sos, { id, at: new Date().toISOString(), outcome: 'opened' }] })),
+      sosClose: (id, outcome, extra) =>
+        setState((s) => ({ ...s, sos: s.sos.map((e) => (e.id === id ? { ...e, outcome, ...extra } : e)) })),
       registerSlip: (data) =>
         setState((s) => {
           const today = dayKey()
