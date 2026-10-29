@@ -7,6 +7,8 @@ import PinLock from './components/PinLock'
 import Welcome from './screens/Welcome'
 import Home from './screens/Home'
 import Momento from './screens/Momento'
+import Pausa from './screens/Pausa'
+import Noite from './screens/Noite'
 import { BibleHome, BookPage, Reader } from './screens/Bible'
 import { PlanList, PlanPage } from './screens/Plans'
 import Prayer from './screens/Prayer'
@@ -83,6 +85,8 @@ export default function App() {
       <Route element={<Shell />}>
         <Route path="/" element={<Home />} />
         <Route path="/momento" element={<Momento />} />
+        <Route path="/pausa" element={<Pausa />} />
+        <Route path="/noite" element={<Noite />} />
         <Route path="/ler" element={<Navigate to="/biblia" replace />} />
         <Route path="/devocional" element={<Navigate to="/momento" replace />} />
         <Route path="/agora/:m" element={<Navigate to="/momento" replace />} />

@@ -15,6 +15,10 @@ export default {
         'accent-ink': c('accent-ink'),
         sun: c('sun'),
         'sun-ink': c('sun-ink'),
+        sand: c('sand'),
+        'sand-ink': c('sand-ink'),
+        night: c('night'),
+        'night-ink': c('night-ink'),
       },
       fontFamily: {
         display: ['Newsreader', 'Georgia', 'serif'],

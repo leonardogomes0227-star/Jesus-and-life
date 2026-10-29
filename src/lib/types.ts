@@ -94,4 +94,5 @@ export interface Moment {
   minutes: number
   ref: string
   need: string
+  kind?: 'manha' | 'pausa' | 'noite' // ausente em registros antigos = manhã
 }

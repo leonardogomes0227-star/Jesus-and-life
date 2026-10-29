@@ -10,7 +10,7 @@ const Icon = ({ children }: { children: ReactNode }) => (
 interface Tab { to: string; label: string; icon: ReactNode; match: string[] }
 
 const tabs: (Tab | null)[] = [
-  { to: '/', label: 'Início', match: ['/', '/momento'], icon: <Icon><path d="M4 11 12 4l8 7v8a1 1 0 0 1-1 1h-4v-6H9v6H5a1 1 0 0 1-1-1z" /></Icon> },
+  { to: '/', label: 'Início', match: ['/', '/momento', '/pausa', '/noite'], icon: <Icon><path d="M4 11 12 4l8 7v8a1 1 0 0 1-1 1h-4v-6H9v6H5a1 1 0 0 1-1-1z" /></Icon> },
   { to: '/biblia', label: 'Bíblia', match: ['/biblia', '/planos', '/orar', '/descanso'], icon: <Icon><path d="M4 5a2 2 0 0 1 2-2h13v16H6a2 2 0 0 0-2 2z" /><path d="M4 19V5M9 8h6" /></Icon> },
   null,
   { to: '/trilha', label: 'Trilhas', match: ['/trilha', '/jornada', '/temas', '/queda', '/ajustes'], icon: <Icon><path d="M4 19c0-5 4-5 8-7s4-4 8-7" /><circle cx="5" cy="19" r="1.5" /><circle cx="19" cy="5" r="1.5" /></Icon> },

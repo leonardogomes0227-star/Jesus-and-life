@@ -70,3 +70,24 @@ export const pickPassage = (feeling: Feeling, moments: Moment[], dayIndex: numbe
   }
   return all[dayIndex % all.length]
 }
+
+/** Passagens para o fim do dia (Salmos e o convite de Jesus aos cansados). */
+export const NIGHT_PASSAGES: Passage[] = [
+  { ref: 'Salmos 4:6-8', book: 'sl', chapter: 4, from: 6, to: 8, why: 'Davi se deita e dorme em paz, mesmo com inimigos por perto.' },
+  { ref: 'Salmos 91:1-6', book: 'sl', chapter: 91, from: 1, to: 6, why: 'Abrigo à sombra de Deus, de noite e de dia.' },
+  { ref: 'Salmos 121', book: 'sl', chapter: 121, from: 1, to: 8, why: 'Quem guarda você não cochila nem dorme.' },
+  { ref: 'Salmos 127:1-2', book: 'sl', chapter: 127, from: 1, to: 2, why: 'O sono também é dom de Deus. Você não precisa vigiar o mundo sozinho.' },
+  { ref: 'Mateus 11:28-30', book: 'mt', chapter: 11, from: 28, to: 30, why: 'O convite de Jesus a quem chega cansado ao fim do dia.' },
+  { ref: 'Salmos 3:3-6', book: 'sl', chapter: 3, from: 3, to: 6, why: '"Deitei-me e dormi; acordei, porque o Senhor me sustentou."' },
+  { ref: 'Salmos 23', book: 'sl', chapter: 23, from: 1, to: 6, why: 'O Pastor que leva você a águas tranquilas.' },
+  { ref: 'Salmos 16:7-11', book: 'sl', chapter: 16, from: 7, to: 11, why: 'Até de noite Deus ensina o coração.' },
+]
+
+export const NIGHT_BENEDICTION = {
+  ref: 'Salmos 4:8',
+  text: 'Em paz me deitarei e logo dormirei; porque só tu, Senhor, me fazes habitar em segurança.',
+}
+
+export type Slot = 'manha' | 'pausa' | 'noite'
+/** Em que momento do dia estamos (para destacar o encontro certo). */
+export const slotNow = (hour: number): Slot => (hour < 11 ? 'manha' : hour < 17 ? 'pausa' : 'noite')

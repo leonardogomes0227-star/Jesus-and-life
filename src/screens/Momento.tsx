@@ -89,7 +89,7 @@ export default function Momento() {
         readChapters: full && !s.readChapters.includes(chKey) ? [...s.readChapters, chKey] : s.readChapters,
         lastRead: { book: passage.book, chapter: passage.chapter },
         checkins: [...checkins, { date: today, at: now, mood: feeling.mood, triggers: feeling.trigger ? [feeling.trigger] : [], note: '' }],
-        moments: [...s.moments, { id: crypto.randomUUID(), at: now, feeling: feeling.id, minutes, ref: passage.ref, need }],
+        moments: [...s.moments, { id: crypto.randomUUID(), at: now, feeling: feeling.id, minutes, ref: passage.ref, need, kind: 'manha' }],
       }
     })
     stopAmb.current?.(); stopAmb.current = null; setAmbient(false)
