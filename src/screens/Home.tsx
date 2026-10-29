@@ -143,7 +143,7 @@ export default function Home() {
           { to: lesson ? `/trilha/${lessonN}` : '/trilha', t: 'Trilha de liberdade', s: lesson ? (lessonN > 1 && state.trailDone.includes(lessonN - 1) && !state.trailPractice[String(lessonN - 1)]?.result ? `Conte como foi a prática de ontem · dia ${lessonN}` : `Dia ${lessonN}: ${lesson.title}`) : 'Ver a trilha' },
           { to: '/plano', t: 'Meu plano', s: state.plan ? `${state.plan.rules.length} ${state.plan.rules.length === 1 ? 'regra' : 'regras'} para os dias difíceis` : 'Monte o seu plano em 5 minutos' },
           { to: '/orar', t: 'Oração e diário', s: 'Pedidos, respostas e anotações' },
-          { to: '/parceiro', t: 'Parceiro', s: state.partner.name ? `Falar com ${state.partner.name}` : 'Alguém de confiança para caminhar junto' },
+          { to: '/parceiro', t: 'Parceiro', s: state.partner.name ? (state.meetings.length && Date.now() - +new Date(state.meetings[state.meetings.length - 1].at) < 7 * 86400000 ? `Encontro da semana feito com ${state.partner.name}` : `Encontro semanal com ${state.partner.name}`) : 'Alguém de confiança para caminhar junto' },
         ].map((x) => (
           <Link key={x.t} to={x.to} className="flex min-h-[64px] items-center justify-between gap-4 py-3 active:opacity-70">
             <span><span className="block font-display text-xl font-semibold">{x.t}</span><span className="block text-sm text-muted">{x.s}</span></span>
