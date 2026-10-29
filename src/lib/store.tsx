@@ -25,6 +25,9 @@ export const emptyState = (): AppState => ({
   plan: null,
   meetings: [],
   reminders: {},
+  readArticles: [],
+  discreet: false,
+  lastBackupAt: null,
   plans: {},
   prayers: [],
   journal: [],
@@ -63,6 +66,9 @@ export const normalize = (raw: unknown): AppState => {
     plan: r.plan && typeof r.plan === 'object' ? r.plan : null,
     meetings: Array.isArray(r.meetings) ? r.meetings : [],
     reminders: r.reminders && typeof r.reminders === 'object' ? r.reminders : {},
+    readArticles: Array.isArray(r.readArticles) ? r.readArticles : [],
+    discreet: r.discreet === true,
+    lastBackupAt: typeof r.lastBackupAt === 'string' ? r.lastBackupAt : null,
     fontScale: r.fontScale === 0 || r.fontScale === 2 ? r.fontScale : 1,
     profile: r.profile ? { ...r.profile, why: r.profile.why ?? '' } : null,
     banked: Number.isFinite(r.banked) ? Number(r.banked) : 0,
@@ -206,13 +212,6 @@ export function useStore(): Store {
   return v
 }
 
-/** Hash simples só para a trava local de PIN (privacidade casual, não segurança forte). */
-export const hashPin = (pin: string): string => {
-  let h = 5381
-  const s = `livre:${pin}`
-  for (let i = 0; i < s.length; i++) h = ((h << 5) + h + s.charCodeAt(i)) | 0
-  return String(h >>> 0)
-}
 
 /** Melhor sequência já registrada. */
 export const bestStreak = (s: AppState): number => Math.max(streakDay(s), ...s.slips.map((x) => x.streakDays - 1))

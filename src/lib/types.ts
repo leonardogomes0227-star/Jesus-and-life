@@ -68,6 +68,9 @@ export interface AppState {
   plan: MyPlan | null // plano pessoal de prevenção
   meetings: Meeting[] // encontros semanais com o parceiro
   reminders: Record<string, { on: boolean; time: string }> // horários dos lembretes no calendário
+  readArticles: string[] // leituras do Aprender concluídas, "tema.leitura"
+  discreet: boolean // modo discreto: nome e ícone neutros na aba
+  lastBackupAt: string | null
   readChapters: string[] // "livro.capítulo" marcados como lidos
   plans: Record<string, PlanProgress>
   prayers: Prayer[]

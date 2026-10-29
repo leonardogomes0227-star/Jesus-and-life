@@ -3,6 +3,7 @@ import { Navigate, Outlet, Route, Routes, useLocation } from 'react-router-dom'
 import { useStore } from './lib/store'
 import TabBar from './components/TabBar'
 import UpdateBanner from './components/UpdateBanner'
+import { isUnlocked, markUnlocked } from './lib/pin'
 import PinLock from './components/PinLock'
 import Welcome from './screens/Welcome'
 import Home from './screens/Home'
@@ -23,9 +24,7 @@ import Settings from './screens/Settings'
 import Sobre from './screens/Sobre'
 import Trail from './screens/Trail'
 import Lesson from './screens/Lesson'
-import { TopicList, TopicPage } from './screens/Topics'
-
-const UNLOCK_KEY = 'livre.unlocked'
+import { ArticlePage, TopicList, TopicPage } from './screens/Topics'
 
 function Shell() {
   const { pathname } = useLocation()
@@ -45,13 +44,8 @@ function Shell() {
 
 export default function App() {
   const { state } = useStore()
-  const [unlocked, setUnlocked] = useState(() => {
-    try {
-      return sessionStorage.getItem(UNLOCK_KEY) === '1'
-    } catch {
-      return false
-    }
-  })
+  const [, force] = useState(0)
+  const unlocked = isUnlocked()
 
   useEffect(() => {
     const el = document.documentElement
@@ -59,17 +53,25 @@ export default function App() {
     else el.setAttribute('data-theme', state.theme)
   }, [state.theme])
 
+  // Modo discreto: nome e ícone neutros na aba do navegador.
+  useEffect(() => {
+    const icon = document.querySelector<HTMLLinkElement>('link[rel="icon"]')
+    if (state.discreet) {
+      document.title = 'Notas'
+      if (icon) icon.href = 'data:image/svg+xml,' + encodeURIComponent('<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64"><rect width="64" height="64" rx="14" fill="#8a8a8a"/><path d="M18 22h28M18 32h28M18 42h18" stroke="#fff" stroke-width="4" stroke-linecap="round"/></svg>')
+    } else {
+      document.title = 'Livre'
+      if (icon) icon.href = '/favicon.svg'
+    }
+  }, [state.discreet])
+
   if (state.pinHash && !unlocked) {
     return (
       <PinLock
         hash={state.pinHash}
         onUnlock={() => {
-          try {
-            sessionStorage.setItem(UNLOCK_KEY, '1')
-          } catch {
-            /* ignora */
-          }
-          setUnlocked(true)
+          markUnlocked()
+          force((n) => n + 1)
         }}
       />
     )
@@ -107,6 +109,7 @@ export default function App() {
         <Route path="/jornada" element={<Journey />} />
         <Route path="/temas" element={<TopicList />} />
         <Route path="/temas/:id" element={<TopicPage />} />
+        <Route path="/temas/:id/:article" element={<ArticlePage />} />
         <Route path="/parceiro" element={<Partner />} />
         <Route path="/parceiro/semana" element={<Semana />} />
         <Route path="/ajustes" element={<Settings />} />
