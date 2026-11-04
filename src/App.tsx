@@ -22,6 +22,7 @@ import Partner from './screens/Partner'
 import Semana from './screens/Semana'
 import Settings from './screens/Settings'
 import Sobre from './screens/Sobre'
+import { EstudoFlow, EstudoHome } from './screens/Estudo'
 import Trail from './screens/Trail'
 import Lesson from './screens/Lesson'
 import { ArticlePage, TopicList, TopicPage } from './screens/Topics'
@@ -98,6 +99,8 @@ export default function App() {
         <Route path="/biblia" element={<BibleHome />} />
         <Route path="/biblia/:book" element={<BookPage />} />
         <Route path="/biblia/:book/:chapter" element={<Reader />} />
+        <Route path="/estudo" element={<EstudoHome />} />
+        <Route path="/estudo/:id" element={<EstudoFlow />} />
         <Route path="/planos" element={<PlanList />} />
         <Route path="/planos/:id" element={<PlanPage />} />
         <Route path="/orar" element={<Prayer />} />

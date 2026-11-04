@@ -87,6 +87,7 @@ export function BibleHome() {
   return (
     <main className="space-y-6">
       <h1 className="font-display text-4xl font-semibold">Bíblia</h1>
+      <Link to="/estudo" className="card block bg-sand text-sand-ink active:scale-[0.99]"><span className="block font-display text-2xl font-semibold">Estudo da Palavra</span><span className="block text-sm opacity-80">Estude um trecho passo a passo: observar, interpretar, aplicar e orar.</span></Link>
 
       <section className="space-y-3">
         <form onSubmit={(e) => { e.preventDefault(); void run(q) }} className="flex gap-2" role="search">
@@ -352,6 +353,7 @@ export function Reader() {
       <header>
         <h1 className="font-display text-3xl font-bold">{b.name} {ch}</h1>
         <button className="min-h-[44px] text-sm font-semibold text-accent underline" aria-expanded={about} onClick={() => setAbout((v) => !v)}>{about ? 'Esconder' : 'Sobre este livro'}</button>
+        <Link to={`/estudo?passagem=${encodeURIComponent(ref)}`} className="ml-4 inline-flex min-h-[44px] items-center text-sm font-semibold text-accent underline">Estudar este capítulo</Link>
       </header>
       {about && <p className="card pop leading-relaxed">{ABOUT[b.id]}</p>}
 

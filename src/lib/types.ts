@@ -72,6 +72,7 @@ export interface AppState {
   discreet: boolean // modo discreto: nome e ícone neutros na aba
   lastBackupAt: string | null
   readChapters: string[] // "livro.capítulo" marcados como lidos
+  studies: Study[] // estudos da Palavra (rascunhos e concluídos)
   plans: Record<string, PlanProgress>
   prayers: Prayer[]
   journal: JournalEntry[]
@@ -129,4 +130,24 @@ export interface MyPlan {
   times: string[] // faixas do dia mais difíceis
   rules: PlanRule[]
   env: PlanEnv[]
+}
+
+export interface Study {
+  id: string
+  book: string
+  chapter: number
+  from: number
+  to: number
+  createdAt: string
+  updatedAt: string
+  step: number // passo atual (0 = ler ... 4 = orar)
+  key?: number // versículo-chave
+  observe: string
+  notice: string
+  god: string
+  person: string
+  change: string
+  action: string
+  prayer: string
+  doneAt?: string
 }

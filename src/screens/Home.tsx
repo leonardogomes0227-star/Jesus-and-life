@@ -74,6 +74,7 @@ export default function Home() {
         <p className="mt-4 font-semibold">{verse.ref} <span className="font-normal text-muted">· ACF</span></p>
         <p className="mt-3 max-w-md leading-relaxed text-muted">{verse.reflection}</p>
         <div className="mt-5 flex flex-wrap gap-2">
+          <Link to={`/estudo?passagem=${encodeURIComponent(verse.ref)}`} className="btn-primary !min-h-[44px] !px-5 text-sm">Estudar esta passagem</Link>
           {ref && <Link to={`/biblia/${ref.book.id}/${ref.chapter}${ref.verse ? `?v=${ref.verse}` : ''}`} className="btn-ghost !min-h-[44px] !px-5 text-sm">Ler o capítulo</Link>}
           {supported && <button className="btn-ghost !min-h-[44px] !px-5 text-sm" onClick={() => read(`${verse.ref}. ${verse.text}`)}>{speaking ? 'Parar' : 'Ouvir'}</button>}
         </div>
@@ -139,6 +140,7 @@ export default function Home() {
 
       <nav aria-label="Mais" className="-mt-2 divide-y divide-line border-y border-line">
         {[
+          { to: '/estudo', t: 'Estudo da Palavra', s: state.studies.some((x) => !x.doneAt) ? 'Você tem um estudo em andamento' : 'Observar, interpretar, aplicar e orar' },
           { to: lastBook ? `/biblia/${state.lastRead!.book}/${state.lastRead!.chapter}` : '/biblia', t: 'Bíblia', s: lastBook ? `Continuar em ${lastBook.name} ${state.lastRead!.chapter}` : 'Ler, buscar e marcar' },
           { to: lesson ? `/trilha/${lessonN}` : '/trilha', t: 'Trilha de liberdade', s: lesson ? (lessonN > 1 && state.trailDone.includes(lessonN - 1) && !state.trailPractice[String(lessonN - 1)]?.result ? `Conte como foi a prática de ontem · dia ${lessonN}` : `Dia ${lessonN}: ${lesson.title}`) : 'Ver a trilha' },
           { to: '/plano', t: 'Meu plano', s: state.plan ? `${state.plan.rules.length} ${state.plan.rules.length === 1 ? 'regra' : 'regras'} para os dias difíceis` : 'Monte o seu plano em 5 minutos' },
