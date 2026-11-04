@@ -27,3 +27,7 @@ Texto ACF em `public/data-acf/<livro>.json`. Confirme a licença antes de divulg
 - `docs/conteudo-para-revisao.md` reúne todo o texto do app para revisão de um pastor e de um psicólogo (gerado por `scripts/exportar-conteudo.ts`).
 - `docs/LICENCA-ACF.md` explica a situação da licença da ACF, traz um modelo de carta de pedido de autorização e o caminho para trocar por uma versão de domínio público.
 - Lembretes: em **Ajustes → Lembretes no calendário** o usuário baixa um arquivo `.ics`; o calendário do celular faz os avisos (o app não envia notificações).
+
+## Estudo da Palavra
+
+`/estudo`: o usuário escolhe um trecho (ou parte de um capítulo) e segue 5 passos: Ler, Observar, Interpretar, Aplicar e Orar. Salva sozinho a cada alteração (`state.studies`), gera um resumo para copiar ou compartilhar e permite guardar a oração como pedido. Atalhos: Início ("Estudar esta passagem"), Bíblia e o leitor de capítulos.
